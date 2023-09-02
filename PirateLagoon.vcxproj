@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\GlobalGameState.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\GlobalScreenFader.cpp" />
+    <ClCompile Include="src\ScreenFader.cpp" />
+    <ClCompile Include="src\piraPGEX_MenuScreen.cpp" />
+    <ClCompile Include="src\Events.cpp" />
+    <ClCompile Include="src\ParticleDataComponent.cpp" />
+    <ClCompile Include="src\ParticleCodeComponent.cpp" />
+    <ClCompile Include="src\GlobalCamera2D.cpp" />
+    <ClCompile Include="src\GlobalTileMap.cpp" />
+    <ClCompile Include="src\ContactListener.cpp" />
+    <ClCompile Include="src\EntityManager.cpp" />
+    <ClCompile Include="src\GlobalEntityManager.cpp" />
+    <ClCompile Include="src\ExampleCodeComponent.cpp" />
+    <ClCompile Include="src\ExampleDataComponent.cpp" />
+    <ClCompile Include="src\ProjectileCodeComponent.cpp" />
+    <ClCompile Include="src\AudioEngine.cpp" />
+    <ClCompile Include="src\GlobalAudioEngine.cpp" />
+    <ClCompile Include="src\GlobalIdentifierGenerator.cpp" />
+    <ClCompile Include="src\DataComponent.cpp" />
+    <ClCompile Include="src\CodeComponent.cpp" />
+    <ClCompile Include="src\ProjectileDataComponent.cpp" />
+    <ClCompile Include="src\ShipCodeComponent.cpp" />
+    <ClCompile Include="src\AnimationFrame.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_broad_phase.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_chain_shape.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_circle_shape.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_collide_circle.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_collide_edge.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_collide_polygon.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_collision.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_distance.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_dynamic_tree.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_edge_shape.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_polygon_shape.cpp" />
+    <ClCompile Include="Box2D\Source\collision\b2_time_of_impact.cpp" />
+    <ClCompile Include="Box2D\Source\common\b2_block_allocator.cpp" />
+    <ClCompile Include="Box2D\Source\common\b2_draw.cpp" />
+    <ClCompile Include="Box2D\Source\common\b2_math.cpp" />
+    <ClCompile Include="Box2D\Source\common\b2_settings.cpp" />
+    <ClCompile Include="Box2D\Source\common\b2_stack_allocator.cpp" />
+    <ClCompile Include="Box2D\Source\common\b2_timer.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_body.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_chain_circle_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_chain_polygon_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_circle_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_contact_manager.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_contact_solver.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_distance_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_edge_circle_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_edge_polygon_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_fixture.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_friction_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_gear_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_island.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_motor_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_mouse_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_polygon_circle_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_polygon_contact.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_prismatic_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_pulley_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_revolute_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_weld_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_wheel_joint.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_world.cpp" />
+    <ClCompile Include="Box2D\Source\dynamics\b2_world_callbacks.cpp" />
+    <ClCompile Include="Box2D\Source\rope\b2_rope.cpp" />
+    <ClCompile Include="src\GlobalAssetManager.cpp" />
+    <ClCompile Include="src\GlobalPhysicsEngine.cpp" />
+    <ClCompile Include="src\GlobalTransformedView.cpp" />
+    <ClCompile Include="src\GlobalPixelGameEngine.cpp" />
+    <ClCompile Include="src\ColliderData.cpp" />
+    <ClCompile Include="src\PhysicsEngineDebugDrawer.cpp" />
+    <ClCompile Include="src\PiraMath.cpp" />
+    <ClCompile Include="src\ShipDataComponent.cpp" />
+    <ClCompile Include="src\GameManager.cpp" />
+    <ClCompile Include="src\Animation.cpp" />
+    <ClCompile Include="src\AnimationGroup.cpp" />
+    <ClCompile Include="src\AssetManager.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\olcPGEX_SplashScreen.cpp" />
+    <ClCompile Include="src\olcPGEX_TransformedView.cpp" />
+    <ClCompile Include="src\olcSoundWaveEngine.cpp" />
+    <ClCompile Include="src\Camera2D.cpp" />
+    <ClCompile Include="src\PhysicsEngine.cpp" />
+    <ClCompile Include="src\TileMap.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\olcPixelGameEngine.cpp" />
+    <ClCompile Include="src\tutasPGEX_ComicArt.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
+    <ClCompile Include="src\TileMapRaycastData.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\GlobalGameState.h" />
+    <ClInclude Include="src\GameState.h" />
+    <ClInclude Include="src\GlobalScreenFader.h" />
+    <ClInclude Include="src\ScreenFader.h" />
+    <ClInclude Include="src\piraPGEX_MenuScreen.h" />
+    <ClInclude Include="src\Events.h" />
+    <ClInclude Include="src\ParticleDataComponent.h" />
+    <ClInclude Include="src\ParticleCodeComponent.h" />
+    <ClInclude Include="src\GlobalCamera2D.h" />
+    <ClInclude Include="src\GlobalTileMap.h" />
+    <ClInclude Include="src\ContactListener.h" />
+    <ClInclude Include="src\EntityManager.h" />
+    <ClInclude Include="src\GlobalEntityManager.h" />
+    <ClInclude Include="src\ExampleCodeComponent.h" />
+    <ClInclude Include="src\ExampleDataComponent.h" />
+    <ClInclude Include="src\ProjectileCodeComponent.h" />
+    <ClInclude Include="src\AudioEngine.h" />
+    <ClInclude Include="src\GlobalAudioEngine.h" />
+    <ClInclude Include="src\EnumColliderFlag.h" />
+    <ClInclude Include="src\EnumShipType.h" />
+    <ClInclude Include="src\GlobalIdentifierGenerator.h" />
+    <ClInclude Include="src\DataComponent.h" />
+    <ClInclude Include="src\CodeComponent.h" />
+    <ClInclude Include="src\ProjectileDataComponent.h" />
+    <ClInclude Include="src\ShipCodeComponent.h" />
+    <ClInclude Include="src\AnimationFrame.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_api.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_block_allocator.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_body.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_broad_phase.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_chain_shape.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_circle_shape.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_collision.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_common.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_contact.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_contact_manager.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_distance.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_distance_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_draw.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_dynamic_tree.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_edge_shape.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_fixture.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_friction_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_gear_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_growable_stack.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_math.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_motor_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_mouse_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_polygon_shape.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_prismatic_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_pulley_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_revolute_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_rope.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_settings.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_shape.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_stack_allocator.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_timer.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_time_of_impact.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_time_step.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_types.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_weld_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_wheel_joint.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_world.h" />
+    <ClInclude Include="Box2D\Include\box2d\b2_world_callbacks.h" />
+    <ClInclude Include="Box2D\Include\box2d\box2d.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_chain_circle_contact.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_chain_polygon_contact.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_circle_contact.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_contact_solver.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_edge_circle_contact.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_edge_polygon_contact.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_island.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_polygon_circle_contact.h" />
+    <ClInclude Include="Box2D\Source\dynamics\b2_polygon_contact.h" />
+    <ClInclude Include="src\EnumAnimationGroupName.h" />
+    <ClInclude Include="src\EnumAnimationName.h" />
+    <ClInclude Include="src\EnumAudioName.h" />
+    <ClInclude Include="src\EnumImageName.h" />
+    <ClInclude Include="src\GlobalAssetManager.h" />
+    <ClInclude Include="src\GlobalPhysicsEngine.h" />
+    <ClInclude Include="src\GlobalTransformedView.h" />
+    <ClInclude Include="src\GlobalPixelGameEngine.h" />
+    <ClInclude Include="src\ColliderData.h" />
+    <ClInclude Include="src\PhysicsEngineDebugDrawer.h" />
+    <ClInclude Include="src\PiraMath.h" />
+    <ClInclude Include="src\ShipDataComponent.h" />
+    <ClInclude Include="src\GameManager.h" />
+    <ClInclude Include="src\Animation.h" />
+    <ClInclude Include="src\AnimationGroup.h" />
+    <ClInclude Include="src\AssetManager.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\Camera2D.h" />
+    <ClInclude Include="src\olcPGEX_TransformedView.h" />
+    <ClInclude Include="src\PhysicsEngine.h" />
+    <ClInclude Include="src\EnumShipSide.h" />
+    <ClInclude Include="src\TileMap.h" />
+    <ClInclude Include="src\olcPGEX_SplashScreen.h" />
+    <ClInclude Include="src\olcPixelGameEngine.h" />
+    <ClInclude Include="src\olcSoundWaveEngine.h" />
+    <ClInclude Include="src\tutasPGEX_ComicArt.h" />
+    <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\TileMapRaycastData.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{227ea032-8d42-4baf-9bdc-aeaf33295ed8}</ProjectGuid>
+    <RootNamespace>PirateLagoon</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
