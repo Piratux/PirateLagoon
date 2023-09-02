@@ -1,0 +1,4 @@
+#TODO: figure out how to actually remove tile as opposed to making it transparent
+#rule_remove_walls.tmx
+rule_add_walls.tmx
+rule_decorate.tmx
