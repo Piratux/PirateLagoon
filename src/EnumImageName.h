@@ -1,0 +1,11 @@
+#pragma once
+
+enum class ImageName {
+	EMPTY,
+	MENU_SCREEN,
+	INTRO_SCREEN,
+	OUTRO_SCREEN,
+	SPRITESHEET_EXPLOSION,
+	TILESHEET,
+	PLAYER_SHIP
+};
