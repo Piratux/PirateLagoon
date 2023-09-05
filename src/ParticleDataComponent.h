@@ -19,17 +19,17 @@ public:
 	ParticleType particle_type = ParticleType::NONE;
 
 
-	olc::vf2d pos = olc::vf2d{0.0f, 0.0f};
+	olc::vf2d pos = olc::vf2d{ 0.0f, 0.0f };
 
 	b2Body* body = nullptr;
-	olc::vf2d body_offset = olc::vf2d{0.0f, 0.0f};
+	olc::vf2d body_offset = olc::vf2d{ 0.0f, 0.0f };
 
 	AnimationGroup animation_group;
 
-	olc::vf2d pos_offset = olc::vf2d{0, 0}; // additional applied offset after calculating final position
+	olc::vf2d pos_offset = olc::vf2d{ 0, 0 }; // additional applied offset after calculating final position
 	float rotation = 0;
 
-	olc::vf2d texture_scale = olc::vf2d{1, 1};
+	olc::vf2d texture_scale = olc::vf2d{ 1, 1 };
 
 	olc::vf2d* follow_pos = nullptr;
 	float lifespan_seconds = 2.0f;
@@ -39,9 +39,10 @@ public:
 	float floating_text_up_speed = 100.0f;
 	float text_scale = 3.0f;
 	std::string text;
+	olc::Pixel text_color = olc::DARK_RED;
 
 	// trailing particle params
-	olc::vf2d start_pos = olc::vf2d{0.0f, 0.0f};
+	olc::vf2d start_pos = olc::vf2d{ 0.0f, 0.0f };
 	b2Body* follow_body = nullptr;
 	float max_trail_scale = 0.2f;
 	float follow_body_speed = 0;

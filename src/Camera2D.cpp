@@ -2,6 +2,7 @@
 #include "GlobalTransformedView.h"
 #include "GlobalPixelGameEngine.h"
 #include "Utils.h"
+#include "PiraMath.h"
 
 void Camera2D::update(float delta) {
 	olc::TransformedView* transformed_view = GlobalTransformedView::get();
@@ -27,7 +28,11 @@ void Camera2D::update(float delta) {
 
 		transformed_view->SetWorldOffset(pos);
 	}
+
 	//}
+
+	current_zoom_scale = PiraMath::lerp(current_zoom_scale, target_zoom_scale, 2.0f * delta);
+	transformed_view->SetWorldScale(olc::vf2d{current_zoom_scale, current_zoom_scale});
 }
 
 void Camera2D::draw() {
@@ -60,6 +65,18 @@ void Camera2D::big_shake(olc::vf2d offset) {
 	shake(offset, 0.6f, 20);
 }
 
+void Camera2D::toggle_zoom() {
+	olc::TransformedView* transformed_view = GlobalTransformedView::get();
+	if (zoomed_out) {
+		zoomed_out = false;
+		target_zoom_scale = zoom_in_scale;
+	}
+	else {
+		zoomed_out = true;
+		target_zoom_scale = zoom_out_scale;
+	}
+}
+
 void Camera2D::apply_shake(olc::vf2d& pos, float delta) {
 	if (shake_duration <= 0.0f) {
 		return;
@@ -67,7 +84,7 @@ void Camera2D::apply_shake(olc::vf2d& pos, float delta) {
 
 	shake_duration -= delta;
 
-	olc::vf2d random_offset = olc::vf2d{(Utils::random_float() - 0.5f) * shake_magnitude, (Utils::random_float() - 0.5f) * shake_magnitude};
+	olc::vf2d random_offset = olc::vf2d{ (Utils::random_float() - 0.5f) * shake_magnitude, (Utils::random_float() - 0.5f) * shake_magnitude };
 	pos += random_offset;
 
 	olc::vf2d direction_offset = shake_offset * shake_magnitude;

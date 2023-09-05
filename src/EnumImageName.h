@@ -2,6 +2,7 @@
 
 enum class ImageName {
 	EMPTY,
+	ARROW,
 	MENU_SCREEN,
 	INTRO_SCREEN,
 	OUTRO_SCREEN,

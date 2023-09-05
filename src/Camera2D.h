@@ -15,6 +15,12 @@ public:
 	float shake_duration = 0.0f;
 	float shake_magnitude = 1.0f;
 
+	float zoom_in_scale = 0.6f;
+	float zoom_out_scale = 0.4f;
+	float target_zoom_scale = zoom_in_scale;
+	float current_zoom_scale = target_zoom_scale;
+	bool zoomed_out = false;
+
 public:
 	void update(float delta);
 	void draw();
@@ -26,6 +32,8 @@ public:
 	void shake(olc::vf2d offset, float duration, float magnitude);
 	void small_shake(olc::vf2d offset);
 	void big_shake(olc::vf2d offset);
+
+	void toggle_zoom();
 
 private:
 	void apply_shake(olc::vf2d& pos, float delta);

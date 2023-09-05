@@ -18,6 +18,7 @@ public:
 
 	// returns pointer to entity or nullptr if entity not found
 	Entity* get_entity(int64_t id);
+	const std::vector<std::unique_ptr<Entity>>& get_entities();
 	void destroy_all_entities();
 };
 

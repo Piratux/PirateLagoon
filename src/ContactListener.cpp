@@ -318,6 +318,10 @@ void ContactListener::player_ship_vs_wall_begin(uintptr_t player_ship, uintptr_t
 void ContactListener::enemy_ship_vs_wall_begin(uintptr_t enemy_ship, uintptr_t wall) {
 	//std::cout << "enemy ship vs wall" << std::endl;
 	// Implementation for enemy ship vs wall collision
+
+	ShipDataComponent* enemy = reinterpret_cast<ShipDataComponent*>(enemy_ship);
+	// TODO: This should be put somewhere else, because taking ram damage also has this line
+	enemy->set_velocity(enemy->get_velocity() - enemy->ram_impact_lost_speed_percentage * 0.01f * enemy->max_vel);
 }
 
 void ContactListener::player_projectile_vs_enemy_projectile_begin(uintptr_t player_projectile, uintptr_t enemy_projectile) {

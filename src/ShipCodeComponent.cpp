@@ -6,6 +6,8 @@
 #include "GlobalEntityManager.h"
 #include "GlobalAssetManager.h"
 #include "GlobalTileMap.h"
+#include "GlobalCamera2D.h"
+#include "GlobalGameState.h"
 #include "PiraMath.h"
 #include "EnumColliderFlag.h"
 #include "ProjectileCodeComponent.h"
@@ -23,6 +25,8 @@ ShipCodeComponent::ShipCodeComponent(ShipDataComponent& data_component, ShipData
 
 bool ShipCodeComponent::update(float delta) {
 	PhysicsEngine* physics_engine = GlobalPhysicsEngine::get();
+
+	//std::cout << "ship_type: " << (int)data_component.ship_type << "; health: " << data_component.health << "pos: " << data_component.pos << std::endl;
 
 	data_component.pos = physics_engine->get_position(data_component.body);
 
@@ -47,6 +51,11 @@ bool ShipCodeComponent::update(float delta) {
 
 void ShipCodeComponent::draw() {
 	olc::TransformedView* transformed_view = GlobalTransformedView::get();
+
+	if (data_component.ship_type == ShipType::PLAYER) {
+		draw_closest_enemy_direction_arrow();
+	}
+
 
 	const AnimationFrame& animation_frame = data_component.animation_group.get_frame();
 	olc::Decal* decal = animation_frame.image->Decal();
@@ -89,7 +98,86 @@ void ShipCodeComponent::draw() {
 	//Utils::draw_cirlce(data_component.spawn_pos, data_component.retreat_range, olc::DARK_YELLOW);
 }
 
+void ShipCodeComponent::update_closest_enemy_arrow(float delta) {
+	olc::TransformedView* transformed_view = GlobalTransformedView::get();
+
+	olc::vf2d nearest_enemy_pos = get_closest_enemy_pos();
+	olc::vf2d vec_to_nearest_enemy = PiraMath::vec2_from_to(data_component.pos, nearest_enemy_pos);
+	float distance_to_nearest_enemy = vec_to_nearest_enemy.mag();
+	float visible_width = transformed_view->GetWorldVisibleArea().x;
+	float half_visible_width = visible_width / 2.0f;
+
+	if (distance_to_nearest_enemy < half_visible_width) {
+		data_component.show_arrow = false;
+	}
+	else if (distance_to_nearest_enemy > visible_width) {
+		data_component.show_arrow = true;
+	}
+
+	if (data_component.show_arrow) {
+		data_component.nearest_enemy_arrow_alpha = PiraMath::lerp(data_component.nearest_enemy_arrow_alpha, 1.0f, 2.0f * delta);
+	}
+	else {
+		data_component.nearest_enemy_arrow_alpha = PiraMath::lerp(data_component.nearest_enemy_arrow_alpha, 0.0f, 2.0f * delta);
+	}
+}
+
+void ShipCodeComponent::draw_closest_enemy_direction_arrow() {
+	olc::TransformedView* transformed_view = GlobalTransformedView::get();
+	AssetManager* asset_manager = GlobalAssetManager::get();
+
+	GameState* game_state = GlobalGameState::get();
+	if (game_state->get() != GameState::State::ACTION) {
+		return;
+	}
+
+	olc::vf2d nearest_enemy_pos = get_closest_enemy_pos();
+	olc::vf2d vec_to_nearest_enemy = PiraMath::vec2_from_to(data_component.pos, nearest_enemy_pos);
+
+	olc::Decal* decal = asset_manager->get_decal(ImageName::ARROW);
+	olc::vf2d size = decal->sprite->Size();
+
+	transformed_view->DrawPartialRotatedDecal(
+		data_component.pos,
+		decal,
+		PiraMath::vec2_to_radians(vec_to_nearest_enemy),
+		olc::vf2d{size.x / 2, size.y},
+		olc::vf2d{0, 0},
+		size,
+		data_component.texture_scale,
+		olc::PixelF(1.0f, 1.0f, 1.0f, data_component.nearest_enemy_arrow_alpha)
+	);
+}
+
+olc::vf2d ShipCodeComponent::get_closest_enemy_pos() {
+	EntityManager* entity_manager = GlobalEntityManager::get();
+
+	float closest_distance = 1000000000.0f;
+	olc::vf2d closest_pos = olc::vf2d{ 0,0 };
+	auto& entities = entity_manager->get_entities();
+	for (auto& entity : entities) {
+		for (auto& entity_data_component : entity->data_components) {
+			ShipDataComponent* enemy_data_component = dynamic_cast<ShipDataComponent*>(entity_data_component.get());
+			if (enemy_data_component) {
+				if (enemy_data_component->ship_type != ShipType::PLAYER) {
+					if (enemy_data_component->is_dead() == false) {
+						float distance = PiraMath::vec2_from_to(data_component.pos, enemy_data_component->pos).mag2();
+						if (distance < closest_distance) {
+							closest_distance = distance;
+							closest_pos = enemy_data_component->pos;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return closest_pos;
+}
+
 bool ShipCodeComponent::update_as_player_ship(float delta) {
+	update_closest_enemy_arrow(delta);
+
 	if (data_component.is_dead()) {
 		return true;
 	}
@@ -121,7 +209,7 @@ bool ShipCodeComponent::update_as_player_ship(float delta) {
 
 		dir *= data_component.get_velocity();
 
-		data_component.body->SetLinearVelocity(b2Vec2{dir.x, dir.y});
+		data_component.body->SetLinearVelocity(b2Vec2{ dir.x, dir.y });
 
 
 		// Shoot cannonballs from side
@@ -139,6 +227,12 @@ bool ShipCodeComponent::update_as_player_ship(float delta) {
 		// Unstuck button
 		if (pge->GetKey(olc::B).bPressed) {
 			data_component.take_damage(data_component.get_max_health());
+		}
+
+		// Zoom in/out
+		Camera2D* camera = GlobalCamera2D::get();
+		if (pge->GetKey(olc::SPACE).bPressed) {
+			camera->toggle_zoom();
 		}
 	}
 
@@ -217,7 +311,7 @@ void ShipCodeComponent::update_movement_as_enemy_ship(float delta) {
 	//std::cout << "movement\n";
 
 
-	// avoid enemy ship getting stuck turning left/right
+	// reduce the chance of enemy ship getting stuck turning left/right
 	if (data_component.just_stopped_avoiding_terrain) {
 		if (terrain_in_front(ship_direction, data_component.avoid_angle)) {
 			avoid_obstacles(false);
@@ -226,9 +320,8 @@ void ShipCodeComponent::update_movement_as_enemy_ship(float delta) {
 
 	// continue avoiding obstacles for a bit by continue turning
 	if (data_component.rotation_timer_seconds > 0.01f) {
-		//std::cout << "keep rotating\n";
 		if (terrain_in_front(ship_direction, data_component.avoid_angle)) {
-			data_component.accelerate(-1, delta);
+			data_component.accelerate(1, delta);
 		}
 		else {
 			data_component.accelerate(1, delta);
@@ -260,6 +353,7 @@ void ShipCodeComponent::update_movement_as_enemy_ship(float delta) {
 		|| distance_to_player > data_component.attack_range
 		|| player_data_component.is_dead()
 		) {
+		//std::cout << "reterating\n";
 		data_component.is_retreating = true;
 
 		// if there is terrain in between ship and "spawn_pos", use path finding
@@ -275,7 +369,18 @@ void ShipCodeComponent::update_movement_as_enemy_ship(float delta) {
 		// direction to spawn pos is 180 degrees by forcing ship to turn a bit.
 		// Resulting sign is multiplied by -1, because direction rotation is rotated by 180 degrees
 		int rotation_side = (det == 0 && dot > 0) ? 1 : -PiraMath::sign(det);
+
+
 		data_component.rotate_ship(rotation_side == -1 ? ShipSide::LEFT : ShipSide::RIGHT, delta);
+
+
+		//float angle_to_spawn = PiraMath::angle_between_vec2_degrees(ship_direction, dir_to_spawn);
+		//if (std::abs(angle_to_spawn) > data_component.wiggle_degrees) {
+		//	data_component.ship_side = angle_to_spawn > 0.0f ? ShipSide::RIGHT : ShipSide::LEFT;
+		//}
+		//if (std::abs(angle_to_spawn) > data_component.no_rotation_degrees) {
+		//	data_component.rotate_ship(data_component.ship_side, delta);
+		//}
 
 		// When ship is close enough to spawn position, stop saying it's "retreating"
 		if (PiraMath::vec2_from_to(data_component.pos, data_component.spawn_pos).mag() < data_component.retreat_range) {
@@ -286,32 +391,74 @@ void ShipCodeComponent::update_movement_as_enemy_ship(float delta) {
 	else {
 		// if there is terrain in between ship and player, use path finding
 		if (tile_map->raycast(data_component.pos, dir_to_player, dir_to_player.mag()).hit) {
+			//std::cout << "attacking with pathfinding\n";
 			use_pathfinding(delta);
 			return;
 		}
 
 
-		// Resulting signs are multiplied by -1, because direction rotation is rotated by 180 degrees
-		float det = PiraMath::vec2_det(dir_to_player, ship_direction);
-		float dot = PiraMath::vec2_dot(dir_to_player, ship_direction);
-		int rotation_side;
+		//// Resulting signs are multiplied by -1, because direction rotation is rotated by 180 degrees
+		//float det = PiraMath::vec2_det(dir_to_player, ship_direction);
+		//float dot = PiraMath::vec2_dot(dir_to_player, ship_direction);
+		//int rotation_side;
+
+		//// if player is too far, try to get closer to it first
+		//if (PiraMath::vec2_from_to(data_component.pos, player_data_component.pos).mag() > data_component.combat_range) {
+		//	// Handle special case when ship angle between current direction and
+		//	// direction to spawn pos is 180 degrees by forcing ship to turn a bit.
+		//	rotation_side = (det == 0 && dot > 0) ? 1 : PiraMath::sign(det);
+		//}
+		//// Otherwise face its sides towards player
+		//else {
+		//	rotation_side = PiraMath::sign(det * dot);
+		//}
+		//data_component.rotate_ship(rotation_side == -1 ? ShipSide::LEFT : ShipSide::RIGHT, delta);
+
+
+
+
 
 		// if player is too far, try to get closer to it first
+		float angle_to_player = PiraMath::angle_between_vec2_degrees(ship_direction, dir_to_player);
 		if (PiraMath::vec2_from_to(data_component.pos, player_data_component.pos).mag() > data_component.combat_range) {
-			// Handle special case when ship angle between current direction and
-			// direction to spawn pos is 180 degrees by forcing ship to turn a bit.
-			rotation_side = (det == 0 && dot > 0) ? 1 : PiraMath::sign(det);
+			//std::cout << "attacking (getting closer)\n";
+			//if (std::abs(angle_to_player) > data_component.wiggle_degrees) {
+			//	data_component.ship_side = angle_to_player > 0.0f ? ShipSide::RIGHT : ShipSide::LEFT;
+			//}
+			//if (std::abs(angle_to_player) > data_component.no_rotation_degrees) {
+			//	data_component.rotate_ship(data_component.ship_side, delta);
+			//}
+
+			//data_component.rotate_ship(data_component.ship_side, delta);
+			//std::cout << "angle: " << angle_to_player << std::endl;
+			data_component.rotate_ship(angle_to_player > 0.0f ? ShipSide::RIGHT : ShipSide::LEFT, delta);
 		}
 		// Otherwise face its sides towards player
 		else {
-			rotation_side = PiraMath::sign(det * dot);
+			//std::cout << "attacking (facing player)\n";
+			if (angle_to_player > 0.0f) {
+				if (angle_to_player/* - data_component.wiggle_degrees*/ < 90.0f) {
+					data_component.ship_side = ShipSide::LEFT;
+				}
+				else if (angle_to_player/* + data_component.wiggle_degrees*/ > 90.0f) {
+					data_component.ship_side = ShipSide::RIGHT;
+				}
+			}
+			else {
+				if (angle_to_player/* + data_component.wiggle_degrees*/ > -90.0f) {
+					data_component.ship_side = ShipSide::RIGHT;
+				}
+				else if (angle_to_player/* - data_component.wiggle_degrees*/ < -90.0f) {
+					data_component.ship_side = ShipSide::LEFT;
+				}
+			}
+			data_component.rotate_ship(data_component.ship_side, delta);
 		}
-		data_component.rotate_ship(rotation_side == -1 ? ShipSide::LEFT : ShipSide::RIGHT, delta);
 	}
 
 
 	// Ship constantly accelerates, when it doesn't need to do obstacle avoidance and pathfinding
-	data_component.accelerate(1, delta);
+	data_component.accelerate(1.0f, delta);
 }
 
 void ShipCodeComponent::update_cannons_as_enemy_ship(float delta) {
@@ -422,7 +569,7 @@ void ShipCodeComponent::add_flying_crew_members() {
 		AnimationGroup animation_group = asset_manager->get_animation_group(AnimationGroupName::PARTICLE_FLYING_CREW_MEMBER);
 		ParticleDataComponent& new_data_component = entity.add_data_component<ParticleDataComponent>(data_component.pos, animation_group);
 		ParticleCodeComponent& new_code_component = entity.add_code_component<ParticleCodeComponent>(new_data_component);
-		new_data_component.texture_scale = olc::vf2d{5.0f, 5.0f};
+		new_data_component.texture_scale = olc::vf2d{ 5.0f, 5.0f };
 		new_data_component.lifespan_seconds = 1.5f;
 		new_data_component.particle_type = ParticleDataComponent::ParticleType::FLYING_CREW_MEMBER;
 		new_data_component.body = physics_engine->create_body(b2BodyType::b2_dynamicBody, data_component.pos.x, data_component.pos.y);
@@ -515,6 +662,7 @@ void ShipCodeComponent::update_timers(float delta) {
 				ParticleDataComponent& new_data_component = entity.add_data_component<ParticleDataComponent>(data_component.pos, animation_group);
 				ParticleCodeComponent& new_code_component = entity.add_code_component<ParticleCodeComponent>(new_data_component);
 				new_data_component.text = "+" + std::to_string(amount_healed);
+				new_data_component.text_color = olc::DARK_GREEN;
 				new_data_component.particle_type = ParticleDataComponent::ParticleType::FLOATING_TEXT;
 			}
 		}
@@ -627,6 +775,7 @@ void ShipCodeComponent::ship_just_died() {
 }
 
 ShipSide ShipCodeComponent::get_player_side() {
+	// TODO: rewrite this using angle_between_vec2_radians
 	olc::vf2d ship_direction = Utils::b2Vec2_to_vf2d(data_component.body->GetLinearVelocity());
 	olc::vf2d right_direction = PiraMath::vec2_rotate_degrees(ship_direction, 90);
 	olc::vf2d left_direction = PiraMath::vec2_rotate_degrees(ship_direction, -90);

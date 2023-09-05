@@ -21,9 +21,13 @@
 // TODO CLEANUP:
 // - when drawing don't convert from radians to degrees and back
 // - use radians everywhere
+// - figure out why 0 length vector passed to PiraMath functions and why bad stuff happen with .norm() there
 
 // TODO possible updates:
+// - more interesting AI (yellow/red/green ships all look very same)
+// - ship upgrades?
 // - sound (AI cannon sound based on distance from player) (big ship big cannon sound)
+// -- use audio from here https://github.com/justinrichardsmusic/PGEv2_Extensions/tree/master/Audio
 // - desert map
 // - more map decoration
 // - fortress that you have to destroy (with cannons that shoot (they follow your movement and try to shoot at you))

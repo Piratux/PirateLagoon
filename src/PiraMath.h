@@ -51,6 +51,12 @@ public:
 	// returns "vec" clockwise by "radians"
 	static olc::vf2d vec2_rotate_radians(olc::vf2d vec, float radians);
 
+	// returns degrees in range [-180, 180] indicating how much vec1 should be turned clockwise, to point at vec2 direction
+	static float angle_between_vec2_degrees(olc::vf2d vec1, olc::vf2d vec2);
+
+	// returns degrees in range [-PI, PI] indicating how much vec1 should be turned clockwise, to point at vec2 direction
+	static float angle_between_vec2_radians(olc::vf2d vec1, olc::vf2d vec2);
+
 	// Calculates determinant of 2 vectors
 	// Returned number is
 	// - positive: vec1 is on right side of vec2
@@ -71,5 +77,7 @@ public:
 	static int sign(T val) {
 		return (T(0) < val) - (val < T(0));
 	}
+
+	static float lerp(float a, float b, float t);
 };
 

@@ -87,7 +87,7 @@ bool ParticleCodeComponent::update(float delta) {
 		data_component.lifespan_seconds -= delta;
 		if (data_component.lifespan_seconds <= 0.0f) {
 			TileMap* tile_map = GlobalTileMap::get();
-			olc::vi2d tile_idx = olc::vi2d{data_component.pos / olc::vf2d{tile_map->get_tile_size()}};
+			olc::vi2d tile_idx = olc::vi2d{ data_component.pos / olc::vf2d{tile_map->get_tile_size()} };
 			if (tile_map->get_tile_idx(TileMap::Layer::Floor, tile_idx.x, tile_idx.y) == (int32_t)TileMap::TileIdx::Water) {
 				// TODO: duplicated code
 				EntityManager* entity_manager = GlobalEntityManager::get();
@@ -98,7 +98,7 @@ bool ParticleCodeComponent::update(float delta) {
 				ParticleDataComponent& new_data_component = entity.add_data_component<ParticleDataComponent>(data_component.pos, animation_group);
 				ParticleCodeComponent& new_code_component = entity.add_code_component<ParticleCodeComponent>(new_data_component);
 				new_data_component.animation_group.set_looping(false);
-				new_data_component.texture_scale = olc::vf2d{3.0f, 3.0f};
+				new_data_component.texture_scale = olc::vf2d{ 3.0f, 3.0f };
 				new_data_component.particle_type = ParticleDataComponent::ParticleType::WATER_SPLASH;
 			}
 
@@ -141,7 +141,7 @@ void ParticleCodeComponent::draw() {
 		transformed_view->DrawStringDecal(
 			data_component.pos - data_component.text_scale * pge->GetTextSize(data_component.text) / 2 + olc::vf2d{data_component.floating_text_offset_x, 0},
 			data_component.text,
-			olc::BLACK,
+			data_component.text_color,
 			olc::vf2d{data_component.text_scale, data_component.text_scale}
 		);
 		break;

@@ -30,7 +30,7 @@ ShipDataComponent::ShipDataComponent(olc::vf2d pos, ShipType ship_type)
 	float collider_scale = 1.0f;
 	if (ship_type == ShipType::ENEMY_BLACK) {
 		collider_scale = black_ship_scale;
-		texture_scale = olc::vf2d{black_ship_scale, black_ship_scale};
+		texture_scale = olc::vf2d{ black_ship_scale, black_ship_scale };
 	}
 
 	physics_engine->add_circle_collider(body, &data, 50.0f * collider_scale);
@@ -55,7 +55,7 @@ ShipDataComponent::ShipDataComponent(olc::vf2d pos, ShipType ship_type)
 		max_vel = 2.0f;
 		damage = 10;
 		set_max_health(100);
-		reload_timer_length_seconds = 4.0f;
+		reload_timer_length_seconds = 3.0f;
 		rotation_speed = 40.0f;
 
 		// TEMP
@@ -75,7 +75,7 @@ ShipDataComponent::ShipDataComponent(olc::vf2d pos, ShipType ship_type)
 		max_vel = 1.5f;
 		damage = 15;
 		set_max_health(150);
-		reload_timer_length_seconds = 5.0f;
+		reload_timer_length_seconds = 4.0f;
 		rotation_speed = 35.0f;
 		break;
 
@@ -83,9 +83,9 @@ ShipDataComponent::ShipDataComponent(olc::vf2d pos, ShipType ship_type)
 		acceleration = 1.0f;
 		animation_group = asset_manager->get_animation_group(AnimationGroupName::SHIP_GREEN);
 		max_vel = 4.0f;
-		damage = 10;
+		damage = 5;
 		set_max_health(50);
-		reload_timer_length_seconds = 5.0f;
+		reload_timer_length_seconds = 2.0f;
 		rotation_speed = 60.0f;
 		avoid_range = 400.0f;
 		break;
@@ -96,7 +96,7 @@ ShipDataComponent::ShipDataComponent(olc::vf2d pos, ShipType ship_type)
 		max_vel = 3.0f;
 		damage = 5;
 		set_max_health(100);
-		reload_timer_length_seconds = 5.0f;
+		reload_timer_length_seconds = 8.0f;
 		rotation_speed = 50.0f;
 		break;
 
@@ -106,7 +106,7 @@ ShipDataComponent::ShipDataComponent(olc::vf2d pos, ShipType ship_type)
 		max_vel = 1.0f;
 		damage = 40;
 		set_max_health(500);
-		reload_timer_length_seconds = 6.0f;
+		reload_timer_length_seconds = 5.0f;
 		rotation_speed = 20.0f;
 		break;
 

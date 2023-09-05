@@ -31,10 +31,10 @@ public:
 	float reload_timer_length_seconds = 1.0f;
 	float reload_timer_seconds = 0.0f;
 
-	olc::vf2d pos = olc::vf2d{0.0f, 0.0f};
+	olc::vf2d pos = olc::vf2d{ 0.0f, 0.0f };
 
 	b2Body* body = nullptr;
-	olc::vf2d body_offset = olc::vf2d{0.0f, 0.0f};
+	olc::vf2d body_offset = olc::vf2d{ 0.0f, 0.0f };
 
 	AnimationGroup animation_group;
 
@@ -45,7 +45,7 @@ public:
 
 
 	// used to indicate extra body and cannon ball size (used for black ship because it's bigger)
-	olc::vf2d texture_scale = olc::vf2d{1.0f, 1.0f};
+	olc::vf2d texture_scale = olc::vf2d{ 1.0f, 1.0f };
 
 	// TODO: split this data into seperate components
 
@@ -60,8 +60,12 @@ public:
 	float combat_range = 400; // from enemy position
 	// True while enemy is going back to its spawn position
 	bool is_retreating = false;
-	// Ship side that will be used to rotate ship when avoiding obstacles
+	// Ship side that will be used to rotate ship when avoiding obstacles or navigating
 	ShipSide ship_side = ShipSide::RIGHT;
+	// Angle at which AI will re-calculate its rotation if it goes too far from its course
+	float wiggle_degrees = 20.0f;
+	// Angle at which AI will go straight if it has a waypoint or target to face
+	float no_rotation_degrees = 5.0f;
 
 	// Angle in degrees describing how big the cone is, that checks for obstacles/terrain in front of the ship (unused)
 	float avoid_angle = 30; // currently, not used
@@ -93,7 +97,7 @@ public:
 	float time_passed_since_death = 0.0f;
 
 	// How long player has to wait after combat before starting to regenerate health
-	float no_regeneration_timer_length_seconds = 10;
+	float no_regeneration_timer_length_seconds = 15;
 	// When combat_timer == 0, player starts regenerating health
 	float no_regeneration_timer_seconds = no_regeneration_timer_length_seconds;
 	// When combat_timer == 0, how often player will regenerate health
@@ -109,6 +113,9 @@ public:
 	float no_ram_damage_timer_seconds = 0.0f;
 	float ram_impact_lost_speed_percentage = 40.0f; // percentage of max velocity
 	bool is_colliding = false;
+
+	float nearest_enemy_arrow_alpha = 1.0f;
+	bool show_arrow = true;
 
 public:
 	ShipDataComponent(olc::vf2d pos, ShipType ship_type);

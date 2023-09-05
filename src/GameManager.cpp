@@ -67,19 +67,23 @@ void GameManager::draw() {
 	olc::TransformedView* transformed_view = GlobalTransformedView::get();
 	GameState* game_state = GlobalGameState::get();
 
+	olc::Pixel text_colour = olc::DARK_YELLOW;
+
 	switch (game_state->get()) {
 	case GameState::State::ACTION:
 		if (current_level == 1) {
-			transformed_view->DrawStringDecal(olc::vi2d{400, 1600}, "Use W/S or up/down\nto accelerate/de-accelerate", olc::BLACK, olc::vf2d{5.0f, 5.0f});
-			transformed_view->DrawStringDecal(olc::vi2d{450, 1100}, "Use A/D or left/right\nto steer ship left/right", olc::BLACK, olc::vf2d{5.0f, 5.0f});
-			transformed_view->DrawStringDecal(olc::vi2d{1300, 3000}, "Use K/L to use left/right cannon", olc::BLACK, olc::vf2d{5.0f, 5.0f});
-			transformed_view->DrawStringDecal(olc::vi2d{4400, 2400}, "Destroy all enemies\nto complete the level", olc::BLACK, olc::vf2d{5.0f, 5.0f});
+			transformed_view->DrawStringDecal(olc::vi2d{400, 1600}, "Use W/S or up/down\nto accelerate/de-accelerate", text_colour, olc::vf2d{5.0f, 5.0f});
+			transformed_view->DrawStringDecal(olc::vi2d{450, 1100}, "Use A/D or left/right\nto steer ship left/right", text_colour, olc::vf2d{5.0f, 5.0f});
+			transformed_view->DrawStringDecal(olc::vi2d{1300, 3000}, "Use K/L to use left/right cannon", text_colour, olc::vf2d{5.0f, 5.0f});
+			transformed_view->DrawStringDecal(olc::vi2d{4400, 2400}, "Destroy all enemies\nto complete the level", text_colour, olc::vf2d{5.0f, 5.0f});
 		}
 		if (current_level == 2) {
-			transformed_view->DrawStringDecal(olc::vi2d{400, 1400}, "Tip: Staying out of combat\nwill regenerate your health!", olc::BLACK, olc::vf2d{5.0f, 5.0f});
+			transformed_view->DrawStringDecal(olc::vi2d{400, 1400}, "Use SPACE to increase/decrease\nyour field of view", text_colour, olc::vf2d{5.0f, 5.0f});
+			transformed_view->DrawStringDecal(olc::vi2d{2200, 3200}, "Arrow from your ship\nshows nearest enemy direction", text_colour, olc::vf2d{5.0f, 5.0f});
+			transformed_view->DrawStringDecal(olc::vi2d{300, 4200}, "Tip: Staying out of combat for a while\nwill regenerate your health!", text_colour, olc::vf2d{5.0f, 5.0f});
 		}
 		if (very_first_enemy_killed && current_level != total_levels) {
-			pge->DrawStringDecal(olc::vi2d{100, 10}, "Enemies left: " + std::to_string(total_enemies_left), olc::BLACK, olc::vf2d{3.0f, 3.0f});
+			pge->DrawStringDecal(olc::vi2d{50, 10}, "Level: " + std::to_string(current_level) + "    Enemies left : " + std::to_string(total_enemies_left), olc::BLACK, olc::vf2d{3.0f, 3.0f});
 		}
 		break;
 
@@ -88,7 +92,7 @@ void GameManager::draw() {
 		break;
 
 	case GameState::State::LEVEL_CLEARED_WAITING_FOR_ENTER:
-		pge->DrawStringDecal(olc::vi2d{150, 400}, "Level " + std::to_string(current_level) + " cleared!\nPress ENTER to proceed", olc::VERY_DARK_BLUE, olc::vf2d{4.0f, 4.0f});
+		pge->DrawStringDecal(olc::vi2d{150, 400}, "Level " + std::to_string(current_level) + " cleared!\nPress ENTER to proceed", olc::DARK_GREEN, olc::vf2d{4.0f, 4.0f});
 		break;
 
 	default:
@@ -105,7 +109,7 @@ void GameManager::create_ships() {
 		for (int y = 0; y < tile_map->get_map_size().y; y++) {
 			int tile_idx = tile_map->get_tile_idx(TileMap::Layer::Objects, x, y);
 			if (tile_idx != 0) {
-				olc::vi2d pos = olc::vi2d{x * tile_map->get_tile_size().x, y * tile_map->get_tile_size().y};
+				olc::vi2d pos = olc::vi2d{ x * tile_map->get_tile_size().x, y * tile_map->get_tile_size().y };
 
 				switch ((TileMap::TileIdx)tile_idx) {
 				case TileMap::TileIdx::WhiteShip:
@@ -124,7 +128,7 @@ void GameManager::create_ships() {
 		for (int y = 0; y < tile_map->get_map_size().y; y++) {
 			int tile_idx = tile_map->get_tile_idx(TileMap::Layer::Objects, x, y);
 			if (tile_idx != 0) {
-				olc::vi2d pos = olc::vi2d{x * tile_map->get_tile_size().x, y * tile_map->get_tile_size().y};
+				olc::vi2d pos = olc::vi2d{ x * tile_map->get_tile_size().x, y * tile_map->get_tile_size().y };
 
 				switch ((TileMap::TileIdx)tile_idx) {
 				case TileMap::TileIdx::YellowShip:
@@ -285,10 +289,14 @@ void GameManager::set_camera_boundaries() {
 }
 
 void GameManager::set_default_camera_zoom() {
-	olc::TransformedView* transformed_view = GlobalTransformedView::get();
+	//olc::TransformedView* transformed_view = GlobalTransformedView::get();
 
-	//olc::vf2d screen_middle = transformed_view->GetWorldTL() + transformed_view->GetWorldVisibleArea() / 2.0f;
-	//transformed_view->ZoomAtScreenPos(0.6f, screen_middle);
+	////olc::vf2d screen_middle = transformed_view->GetWorldTL() + transformed_view->GetWorldVisibleArea() / 2.0f;
+	////transformed_view->ZoomAtScreenPos(0.6f, screen_middle);
 
-	transformed_view->SetWorldScale(olc::vf2d{0.6f, 0.6f});
+	//transformed_view->SetWorldScale(olc::vf2d{0.6f, 0.6f});
+	Camera2D* camera = GlobalCamera2D::get();
+	if (camera->zoomed_out) {
+		camera->toggle_zoom();
+	}
 }

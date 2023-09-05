@@ -8,7 +8,7 @@ void EntityManager::update(float delta) {
 	for (size_t i = 0; i < entities.size(); ++i) {
 		// if entity needs to be deleted
 		if (entities[i]->update(delta) == false) {
-			entity_deletion_idxs.push(i);
+			entity_deletion_idxs.push((int)i);
 		}
 	}
 
@@ -39,6 +39,10 @@ Entity* EntityManager::get_entity(int64_t id) {
 	}
 
 	return nullptr;
+}
+
+const std::vector<std::unique_ptr<Entity>>& EntityManager::get_entities() {
+	return entities;
 }
 
 void EntityManager::destroy_all_entities() {

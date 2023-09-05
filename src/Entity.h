@@ -9,10 +9,11 @@
 class Entity final {
 private:
 	int64_t id = -1;
-	std::vector<std::unique_ptr<CodeComponent>> code_components;
-	std::vector<std::unique_ptr<DataComponent>> data_components;
 
 public:
+	// TODO: sigh... this shouldn't be public
+	std::vector<std::unique_ptr<CodeComponent>> code_components;
+	std::vector<std::unique_ptr<DataComponent>> data_components;
 	Entity();
 
 	// Return false, if object wants to destroy itself after update.

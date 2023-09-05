@@ -15,6 +15,9 @@ public:
 	void draw() override;
 
 private:
+	void update_closest_enemy_arrow(float delta);
+	void draw_closest_enemy_direction_arrow();
+	olc::vf2d get_closest_enemy_pos();
 	bool update_as_player_ship(float delta);
 	bool update_as_enemy_ship(float delta);
 	// generic enemy ship movement

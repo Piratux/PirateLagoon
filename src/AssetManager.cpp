@@ -43,7 +43,7 @@ AnimationGroup AssetManager::get_animation_group(AnimationGroupName animation_gr
 }
 
 void AssetManager::init_empty_animation_frame() {
-	AnimationFrame::empty_frame = AnimationFrame{get_renderable(ImageName::EMPTY), 0, 0, 1, 1, 0.0f};
+	AnimationFrame::empty_frame = AnimationFrame{ get_renderable(ImageName::EMPTY), 0, 0, 1, 1, 0.0f };
 }
 
 void AssetManager::load_audios() {
@@ -72,6 +72,7 @@ void AssetManager::load_images() {
 	};
 
 	load_image(ImageName::EMPTY, "empty");
+	load_image(ImageName::ARROW, "arrow");
 	load_image(ImageName::MENU_SCREEN, "menu_screen");
 	load_image(ImageName::INTRO_SCREEN, "intro_screen");
 	load_image(ImageName::OUTRO_SCREEN, "outro_screen");
@@ -86,31 +87,31 @@ void AssetManager::load_animation_groups() {
 		std::vector<std::tuple<AnimationName, std::string, olc::vi2d>> animation_params,
 		int animation_speed = 15
 		) {
-		for (auto& animation_param : animation_params) {
-			AnimationName animation_name;
-			std::string animation_file_path;
-			olc::vi2d grid_size;
-			std::tie(animation_name, animation_file_path, grid_size) = animation_param;
+			for (auto& animation_param : animation_params) {
+				AnimationName animation_name;
+				std::string animation_file_path;
+				olc::vi2d grid_size;
+				std::tie(animation_name, animation_file_path, grid_size) = animation_param;
 
-			animation_spritesheets.push_back(std::make_unique<olc::Renderable>());
-			olc::Renderable& spritesheet = *animation_spritesheets.back();
-			olc::rcode result = spritesheet.Load(animation_root + animation_file_path + ".png");
-			if (result != olc::rcode::OK) {
-				std::cout << "Error: couldn't spritesheet image: " + animation_file_path << "\n";
-				exit(-1);
+				animation_spritesheets.push_back(std::make_unique<olc::Renderable>());
+				olc::Renderable& spritesheet = *animation_spritesheets.back();
+				olc::rcode result = spritesheet.Load(animation_root + animation_file_path + ".png");
+				if (result != olc::rcode::OK) {
+					std::cout << "Error: couldn't spritesheet image: " + animation_file_path << "\n";
+					exit(-1);
+				}
+
+				Animation animation;
+				animation.create(&spritesheet, spritesheet.Sprite()->Size(), grid_size, {}, animation_speed);
+
+				animation_groups[animation_group_name].add_animation(animation_name, std::move(animation));
 			}
-
-			Animation animation;
-			animation.create(&spritesheet, spritesheet.Sprite()->Size(), grid_size, {}, animation_speed);
-
-			animation_groups[animation_group_name].add_animation(animation_name, std::move(animation));
-		}
 	};
 
-	auto load_image_as_animation_group = [&](AnimationGroupName animation_group_name, const std::string& path, olc::vi2d grid_size = {1, 1}, int animation_speed = 15) {
+	auto load_image_as_animation_group = [&](AnimationGroupName animation_group_name, const std::string& path, olc::vi2d grid_size = { 1, 1 }, int animation_speed = 15) {
 		load_animation_group(
 			animation_group_name,
-			{{AnimationName::DEFAULT, path, grid_size}, },
+			{ {AnimationName::DEFAULT, path, grid_size}, },
 			animation_speed
 		);
 	};
@@ -122,7 +123,7 @@ void AssetManager::load_animation_groups() {
 
 	load_animation_group(
 		AnimationGroupName::PARTICLE_FLYING_CREW_MEMBER,
-		{{AnimationName::FLYING_CREW_MEMBER_1, "crew (1)", olc::vi2d{1, 1}},
+		{ {AnimationName::FLYING_CREW_MEMBER_1, "crew (1)", olc::vi2d{1, 1}},
 		{AnimationName::FLYING_CREW_MEMBER_2, "crew (2)", olc::vi2d{1, 1}},
 		{AnimationName::FLYING_CREW_MEMBER_3, "crew (3)", olc::vi2d{1, 1}},
 		{AnimationName::FLYING_CREW_MEMBER_4, "crew (4)", olc::vi2d{1, 1}},
@@ -132,7 +133,7 @@ void AssetManager::load_animation_groups() {
 
 	load_animation_group(
 		AnimationGroupName::SHIP_WHITE,
-		{{AnimationName::SHIP_HEALTHY, "ship_white (1)", olc::vi2d{1, 1}},
+		{ {AnimationName::SHIP_HEALTHY, "ship_white (1)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_1, "ship_white (2)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_2, "ship_white (3)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DESTROYED, "ship_white (4)", olc::vi2d{1, 1}}, }
@@ -140,7 +141,7 @@ void AssetManager::load_animation_groups() {
 
 	load_animation_group(
 		AnimationGroupName::SHIP_YELLOW,
-		{{AnimationName::SHIP_HEALTHY, "ship_yellow (1)", olc::vi2d{1, 1}},
+		{ {AnimationName::SHIP_HEALTHY, "ship_yellow (1)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_1, "ship_yellow (2)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_2, "ship_yellow (3)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DESTROYED, "ship_yellow (4)", olc::vi2d{1, 1}}, }
@@ -148,7 +149,7 @@ void AssetManager::load_animation_groups() {
 
 	load_animation_group(
 		AnimationGroupName::SHIP_RED,
-		{{AnimationName::SHIP_HEALTHY, "ship_red (1)", olc::vi2d{1, 1}},
+		{ {AnimationName::SHIP_HEALTHY, "ship_red (1)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_1, "ship_red (2)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_2, "ship_red (3)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DESTROYED, "ship_red (4)", olc::vi2d{1, 1}}, }
@@ -156,7 +157,7 @@ void AssetManager::load_animation_groups() {
 
 	load_animation_group(
 		AnimationGroupName::SHIP_GREEN,
-		{{AnimationName::SHIP_HEALTHY, "ship_green (1)", olc::vi2d{1, 1}},
+		{ {AnimationName::SHIP_HEALTHY, "ship_green (1)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_1, "ship_green (2)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_2, "ship_green (3)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DESTROYED, "ship_green (4)", olc::vi2d{1, 1}}, }
@@ -164,7 +165,7 @@ void AssetManager::load_animation_groups() {
 
 	load_animation_group(
 		AnimationGroupName::SHIP_BLUE,
-		{{AnimationName::SHIP_HEALTHY, "ship_blue (1)", olc::vi2d{1, 1}},
+		{ {AnimationName::SHIP_HEALTHY, "ship_blue (1)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_1, "ship_blue (2)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_2, "ship_blue (3)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DESTROYED, "ship_blue (4)", olc::vi2d{1, 1}}, }
@@ -172,7 +173,7 @@ void AssetManager::load_animation_groups() {
 
 	load_animation_group(
 		AnimationGroupName::SHIP_BLACK,
-		{{AnimationName::SHIP_HEALTHY, "ship_black (1)", olc::vi2d{1, 1}},
+		{ {AnimationName::SHIP_HEALTHY, "ship_black (1)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_1, "ship_black (2)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DAMAGED_2, "ship_black (3)", olc::vi2d{1, 1}},
 		{AnimationName::SHIP_DESTROYED, "ship_black (4)", olc::vi2d{1, 1}}, }
