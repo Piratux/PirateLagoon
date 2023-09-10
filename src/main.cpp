@@ -1,39 +1,24 @@
-// TODO:
-// + shooting
-// + enemy taking damage
-// + explosion when enemy dies
-// + dying
-// + floating damage text
-// + level loading
-// + ship explosion particle
-// + projectile trail particle
-// + colliding damage
-// + camera shake from ramming
-// + explanation text
-// + ship slowing down upon collision
-// + AI moving
-// + AI shooting
-// + comic integration
-// + add credits
-// + add health regeneration (when out of combat)
-// + particles
-
 // TODO CLEANUP:
+// - check if camera shake works when zoomed in/out
 // - when drawing don't convert from radians to degrees and back
 // - use radians everywhere
 // - figure out why 0 length vector passed to PiraMath functions and why bad stuff happen with .norm() there
+// - add debug toggle (implement it as global setting)
 
 // TODO possible updates:
+// - boss bigger cannon ball (maybe one big and few small ones)
+// - timer for each map?
+// - special weather (winds that make it harder to go in certain direction)
+// - buff green enemy damage (5 to 10 maybe)
+// - mini map (you could find it for each map) (one of early enemy ships could drop it)
 // - more interesting AI (yellow/red/green ships all look very same)
-// - ship upgrades?
+// - ship upgrades? (player special ability once a while) (special areas that spawn ship boost (this would have text on first one explaining how it works))
 // - sound (AI cannon sound based on distance from player) (big ship big cannon sound)
-// -- use audio from here https://github.com/justinrichardsmusic/PGEv2_Extensions/tree/master/Audio
-// - desert map
-// - more map decoration
-// - fortress that you have to destroy (with cannons that shoot (they follow your movement and try to shoot at you))
+// -- use audio from here https://github.com/justinrichardsmusic/PGEv2_Extensions/tree/master/Audio (or moros mini audio PGEX)
+// - more map decoration (desert map, night map, decorations on shore and sea)
+// - fortress that you have to destroy (with cannons that shoot (they follow your movement and try to shoot at you)) (maybe even in middle of sea)
 
 #include "olcPixelGameEngine.h"
-#include "olcSoundWaveEngine.h"
 #include "olcPGEX_SplashScreen.h"
 #include "olcPGEX_TransformedView.h"
 #include "piraPGEX_MenuScreen.h"
@@ -59,41 +44,38 @@ public:
 	float total_time = 0.0f;
 	float physics_time_step = 1.0f / 60.0f;
 	float accumulated_delta = 0.0f;
+	bool draw_physics_debug = false;
 
-	AssetManager asset_manager;
-
-	olc::TransformedView transformed_view;
-
+	// NOTE: sizeof(PhysicsEngine) is quite big because of "b2World", so better keep it on heap
 	std::unique_ptr<PhysicsEngine> physics_engine;
 	std::unique_ptr<ContactListener> contact_listener;
-	AudioEngine audio_engine;
 	std::unique_ptr<GameManager> game_manager;
+
+	olc::TransformedView transformed_view;
+	AssetManager asset_manager;
+	AudioEngine audio_engine;
 	EntityManager entity_manager;
 	ScreenFader screen_fader;
 	GameState game_state;
-
 	Camera2D camera;
 	TileMap tile_map;
 
-	bool draw_physics_debug = false;
+	// Screen "hijackers" that "override" OnUserUpdate()
 
 	// Automatically shows splash screen.
-	// Comment out to disable it.
+	// Comment out to disable it (just splash screen).
 	olc::SplashScreen splash_screen;
-
 	std::unique_ptr<olc::MenuScreen> menu_screen;
 	std::unique_ptr<olc::ComicScreen> comic_screen;
 
+public:
 	Game() {
 		sAppName = "Pirate lagoon";
 	}
 
-public:
 	bool OnUserCreate() override {
 		try {
-			//std::cout << sizeof(uintptr_t) << std::endl;
 			register_globals();
-
 
 			transformed_view.Initialise(this->GetScreenSize());
 			asset_manager.init();
@@ -112,7 +94,6 @@ public:
 
 			menu_screen = std::make_unique<olc::MenuScreen>(asset_manager.get_renderable(ImageName::MENU_SCREEN));
 
-			//temporary_init();
 			return true;
 		}
 		catch (std::exception e) {
@@ -123,6 +104,10 @@ public:
 
 	bool OnUserUpdate(float delta) override {
 		try {
+			// We don't want crazy stuff to happen with big or negative deltas (although preferable solution is fixed ticks for everything)
+			delta = std::clamp(delta, 0.0f, 0.1f);
+			accumulated_delta += delta;
+
 			switch (game_state.get()) {
 			case GameState::State::MENU_SCREEN:
 				menu_screen->play_menu();
@@ -137,20 +122,13 @@ public:
 			case GameState::State::OUTRO_SCREEN:
 				comic_screen->startEnding();
 				game_state.set(GameState::State::MENU_SCREEN);
-				game_manager = std::make_unique<GameManager>();
+				game_manager = std::make_unique<GameManager>(); // easy and robust way to soft reset it
 				game_manager->init();
 				break;
 
 			default:
-				//audio_engine.play(AudioName::CANNON_BLAST);
-				//Clear(olc::BLACK);
-
-				// We don't want crazy stuff to happen with big and negative deltas (especially physics engine getting stuck)
-				delta = std::clamp(delta, 0.0f, 0.1f);
-				accumulated_delta += delta;
-
-				// IMPORTANT: physics should be updated before entities, because if physics body position is used in update and draw functions, the position lags 1 frame behind
-				// we want to keep stable timestep for physics, but we also don't wanna tie it to frame rate
+				// IMPORTANT: Physics should be updated before entities, because if physics body position is used in update and draw functions, the position lags 1 frame behind.
+				// We want to keep stable timestep for physics, but we also don't wanna tie it to frame rate
 				while (accumulated_delta >= physics_time_step) {
 					accumulated_delta -= physics_time_step;
 					physics_engine->update();
@@ -174,11 +152,6 @@ public:
 				// TEMP
 				//temporary_update(delta);
 
-				// temporary, since emscripten has this by default
-				//if (GetKey(olc::ESCAPE).bPressed) {
-				//	return false;
-				//}
-
 				break;
 			}
 
@@ -192,25 +165,7 @@ public:
 		}
 	}
 
-	void temporary_init() {
-		//for (int degrees = -720; degrees <= 720; degrees += 45) {
-		//	std::cout << degrees << " " << PiraMath::degrees_to_vec2(degrees) << " " << PiraMath::vec2_to_degrees(PiraMath::degrees_to_vec2(degrees)) << std::endl;
-		//	float radians = PiraMath::degrees_to_radians(degrees);
-		//	std::cout << radians << " " << PiraMath::radians_to_vec2(radians) << " " << PiraMath::vec2_to_radians(PiraMath::radians_to_vec2(radians)) << std::endl;
-		//	std::cout << std::endl;
-		//}
-		//std::cout << "AssetManager size: " << sizeof(AssetManager) << std::endl;
-		//std::cout << "AudioEngine size: " << sizeof(AudioEngine) << std::endl;
-		//std::cout << "Animation size: " << sizeof(Animation) << std::endl;
-		//std::cout << "TransformedView size: " << sizeof(olc::TransformedView) << std::endl;
-		//std::cout << "PhysicsEngine size: " << sizeof(PhysicsEngine) << std::endl;
-		//std::cout << "GameManager size: " << sizeof(GameManager) << std::endl;
-		//std::cout << "PixelGameEngine size: " << sizeof(olc::PixelGameEngine) << std::endl;
-	}
-
 	void temporary_update(float delta) {
-		//draw_background(delta);
-
 		transformed_view.HandlePanAndZoom(0);
 
 		// TEMP
@@ -236,19 +191,6 @@ public:
 		GlobalTileMap::set(&tile_map);
 		GlobalScreenFader::set(&screen_fader);
 		GlobalGameState::set(&game_state);
-	}
-
-	void draw_background(float delta) {
-		total_time += delta * 50;
-		uint8_t time = (uint8_t)total_time;
-		for (int x = 0; x < ScreenWidth(); x++) {
-			for (int y = 0; y < ScreenHeight(); y++) {
-				uint8_t R = (time + x + y) % 256;
-				uint8_t G = 0;
-				uint8_t B = 255 - (time - x - y) % 256;
-				Draw(x, y, olc::Pixel(R, G, B));
-			}
-		}
 	}
 };
 

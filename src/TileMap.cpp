@@ -7,7 +7,6 @@
 void TileMap::init(olc::Renderable* original_tilesheet) {
 	initialised = true;
 	this->original_tilesheet = original_tilesheet;
-	//load_map(default_map_idx);
 }
 
 void TileMap::update(float delta) {
@@ -24,8 +23,6 @@ void TileMap::draw() {
 
 	draw_layer(Layer::Floor);
 	draw_layer(Layer::Floor2);
-	//draw_layer(Layer::Walls);
-	//draw_layer(Layer::Objects);
 }
 
 void TileMap::draw_layer(Layer layer) {
@@ -35,8 +32,6 @@ void TileMap::draw_layer(Layer layer) {
 
 	olc::PixelGameEngine* pge = GlobalPixelGameEngine::get();
 	olc::TransformedView* transformed_view = GlobalTransformedView::get();
-
-	std::vector<int32_t>& layer_data = get_layer_data(layer);
 
 	// calculate which part of map player can actually see
 	olc::vf2d top_left = transformed_view->GetWorldTL();
@@ -180,15 +175,12 @@ int32_t TileMap::get_tile_idx(Layer layer, int idx_x, int idx_y) {
 TileMapRaycastData TileMap::raycast(olc::vf2d start_pos, olc::vf2d ray_dir, float max_distance) {
 	// NOTE: this function assumes tile width == tile height
 	// Thanks javidx9 https://www.youtube.com/watch?v=NbSee-XM7WA
-	olc::vi2d tile_size = get_tile_size();
-	olc::vi2d map_size = get_map_size();
-
 	max_distance /= (float)tile_size.x;
 
 	ray_dir = ray_dir.norm();
 
 	// algorithm is implemented with tile_size being 1x1
-	start_pos = olc::vi2d{start_pos / olc::vf2d{tile_size}};
+	start_pos = olc::vi2d{ start_pos / olc::vf2d{tile_size} };
 
 	olc::vf2d ray_unit_step_size = {
 		sqrt(1 + (ray_dir.y / ray_dir.x) * (ray_dir.y / ray_dir.x)),
@@ -316,7 +308,6 @@ void TileMap::draw_tile(olc::vi2d tile_pos, int tile_idx, bool draw_extended_til
 
 	transformed_view->DrawPartialRotatedDecal(
 		tile_pos + tile_size / 2, // render pos
-		//-camera->pos + tile_pos + asset_manager->tile_size / 2, // render pos
 		tilesheet.Decal(), // decal ptr
 		angle, // angle
 		tile_size / 2, // rotation center (and also acts as -offset)
@@ -361,8 +352,6 @@ void TileMap::extend_tilesheet_edges() {
 	tilesheet_with_extended_edges_created = true;
 
 	tilesheet.Create(tile_count.x * (tile_size.x + 2 * edge_length), tile_count.y * (tile_size.y + 2 * edge_length));
-	olc::Sprite* sprite = tilesheet.Decal()->sprite;
-	std::cout << "Resized tilesheet size: " << sprite->Size() << std::endl;
 
 	// Iterate over each tile in the original tilesheet and copy it to the extended tilesheet
 	for (int y = 0; y < tile_count.y; y++) {
@@ -504,7 +493,6 @@ void TileMap::set_map_wall_colliders() {
 
 	// chain length of wall tiles next to each other counted in tiles
 	int32_t chain_length;
-
 	int32_t height_idx, width_idx;
 
 	// horizontal iteration

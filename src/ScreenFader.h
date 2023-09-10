@@ -37,6 +37,5 @@ private:
 	// t - 0 no transparency
 	// t - 1 fully transparent
 	void draw_transparent_rect(float t);
-
 };
 

@@ -6,9 +6,6 @@ namespace olc {
 	class ComicScreen : public olc::PGEX {
 	public:
 		ComicScreen(olc::Renderable* intro_screen, olc::Renderable* outro_screen);
-		bool isRunning = false;
-		int step = 0;
-		bool isEnding = false;
 		void startIntro();
 		void startEnding();
 
@@ -25,11 +22,12 @@ namespace olc {
 		olc::vf2d vPosition;
 		float fDeltaTime = 0.0f;
 		float fAspect = 0.0f;
-		olc::vf2d steps[8] = {olc::vf2d(0, 0), olc::vf2d(-570, 0), olc::vf2d(-570, 0), olc::vf2d(0, -550), olc::vf2d(-570, -550), olc::vf2d(-320, -550 * 3 + 370), olc::vf2d(-320, -550 * 4 + 200), olc::vf2d(-320, -550 * 4 + 200)};
-		olc::vf2d stepsED[5] = {olc::vf2d(0, -10), olc::vf2d(-570, 0), olc::vf2d(-320, -670), olc::vf2d(-320, -1290), olc::vf2d(-320, -550 * 4 + 220)};
+		olc::vf2d steps[8] = { olc::vf2d(0, 0), olc::vf2d(-570, 0), olc::vf2d(-570, 0), olc::vf2d(0, -550), olc::vf2d(-570, -550), olc::vf2d(-320, -550 * 3 + 370), olc::vf2d(-320, -550 * 4 + 200), olc::vf2d(-320, -550 * 4 + 200) };
+		olc::vf2d stepsED[5] = { olc::vf2d(0, -10), olc::vf2d(-570, 0), olc::vf2d(-320, -670), olc::vf2d(-320, -1290), olc::vf2d(-320, -550 * 4 + 220) };
+		int step = 0;
+		bool isRunning = false;
+		bool isEnding = false;
 	};
-
-
 }
 
 #ifdef OLC_PGEX_COMICSCREEN
@@ -37,9 +35,9 @@ namespace olc {
 
 namespace olc {
 	ComicScreen::ComicScreen(olc::Renderable* intro_screen, olc::Renderable* outro_screen)
-		: bg(intro_screen)
-		, bgED(outro_screen)
-		, olc::PGEX(true) {
+		: olc::PGEX(true)
+		, bg(intro_screen)
+		, bgED(outro_screen) {
 	}
 
 	void ComicScreen::startIntro() {
@@ -52,6 +50,7 @@ namespace olc {
 		fDeltaTime = 0.0f;
 		fAspect = 0.0f;
 	}
+
 	void ComicScreen::startEnding() {
 		isRunning = true;
 		isEnding = true;
@@ -67,7 +66,7 @@ namespace olc {
 	}
 
 	int ComicScreen::getProgress(float mult) {
-		int f = fDeltaTime * 150.0f * mult;
+		int f = int(fDeltaTime * 150.0f * mult);
 		if (f > 255) f = 255;
 		return f;
 	}
@@ -76,16 +75,10 @@ namespace olc {
 		if (!isRunning)
 			return false;
 		if (isEnding) {
-			//if (step == 5) {
-			//	isRunning = false;
-			//	step = 0;
-			//	return false;
-			//}
 			fDeltaTime += fElapsedTime;
 
 			vPosition = vPosition.lerp(stepsED[std::clamp(step, 0, 4)], fElapsedTime * 10);
 			pge->DrawDecal(vPosition, bgED->Decal(), olc::vf2d(1, 1));
-			//pge->DrawDecal(0.f,0.f, bg.Decal())
 
 			if (step == 5) {
 				int p = getProgress(0.5f);
@@ -110,9 +103,6 @@ namespace olc {
 			if (pge->GetKey(olc::ENTER).bPressed) {
 				step++;
 				fDeltaTime = 0;
-				//if (step == 5) {
-				//	vPosition = steps[4];
-				//}
 			}
 		}
 		else {
@@ -123,7 +113,6 @@ namespace olc {
 			}
 			fDeltaTime += fElapsedTime;
 			vPosition = vPosition.lerp(steps[step], fElapsedTime * 10);
-			//pge->DrawDecal(0.f,0.f, bg.Decal())
 
 			if (step == 5) {
 				vPosition = olc::vf2d(5 * sin(fDeltaTime * 20) * (1 - (255.0f / getProgress(0.75f))), 5 * cos(fDeltaTime * 20) * (1 - (255.0f / getProgress(0.75f)))) + steps[step];
@@ -166,7 +155,6 @@ namespace olc {
 
 		return true;
 	}
-
 }
 
 #endif

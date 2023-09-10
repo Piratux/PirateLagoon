@@ -46,9 +46,6 @@ bool ParticleCodeComponent::update(float delta) {
 		data_component.follow_body_speed = data_component.follow_body->GetLinearVelocity().Length();
 		data_component.max_recorded_follow_body_speed = std::max(data_component.max_recorded_follow_body_speed, data_component.follow_body_speed);
 
-		// calculate rotation
-		//data_component.rotation = data_component.get_rotation_degrees()
-
 		// calculate scale
 		float dist_travelled = PiraMath::distance(data_component.start_pos, data_component.pos);
 
@@ -111,16 +108,8 @@ bool ParticleCodeComponent::update(float delta) {
 		float scale = -(x * x) + 0.8f * x + 2.6f;
 		data_component.texture_scale.x = scale;
 		data_component.texture_scale.y = scale;
-
-		//data_component.lifespan_seconds -= delta;
-		//if (data_component.lifespan_seconds <= 0.0f) {
-		//	return false;
-		//}
-
-		//data_component.pos.y -= delta * data_component.floating_text_up_speed;
 		break;
 	}
-
 
 	default:
 		break;
@@ -161,7 +150,6 @@ void ParticleCodeComponent::draw() {
 			decal,
 			physics_engine->get_angle_radians(data_component.follow_body),
 			olc::vf2d{animation_frame.source_size.x / 2, (((float)-data_component.follow_object_texture_width * data_component.cannon_ball_scale) / 2.0f) / data_component.texture_scale.y}, // the division by texture scale is needed, because center gets divided by texture scale inside the function
-			//animation_frame.source_size / 2.0f,
 			animation_frame.source_pos,
 			animation_frame.source_size,
 			data_component.texture_scale

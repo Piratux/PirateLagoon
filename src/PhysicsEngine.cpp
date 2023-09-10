@@ -44,9 +44,6 @@ void PhysicsEngine::destroy_body(b2Body* body) {
 	}
 
 	world.DestroyBody(body);
-
-	++total_bodies_destroyed;
-	//std::cout << "Total bodies destroyed: " << total_bodies_destroyed << '\n';
 }
 
 void PhysicsEngine::add_collider(b2Body* body, ColliderData* data, b2Shape* shape) {
@@ -78,29 +75,33 @@ void PhysicsEngine::add_collider(b2Body* body, ColliderData* data, b2Shape* shap
 
 void PhysicsEngine::add_rectangle_collider(b2Body* body, ColliderData* data, float size_x, float size_y) {
 	b2PolygonShape rect;
-	rect.SetAsBox((size_x * world_scale) / 2.0f, (size_y * world_scale) / 2.0f, b2Vec2{data->offset_x * world_scale, data->offset_y * world_scale}, 0.0f);
+	rect.SetAsBox((size_x * world_scale) / 2.0f, (size_y * world_scale) / 2.0f, b2Vec2{ data->offset_x * world_scale, data->offset_y * world_scale }, 0.0f);
 	add_collider(body, data, &rect);
 }
 
 void PhysicsEngine::add_circle_collider(b2Body* body, ColliderData* data, float radius) {
 	b2CircleShape circle;
 	circle.m_radius = radius * world_scale;
-	circle.m_p = b2Vec2{data->offset_x * world_scale, data->offset_y * world_scale};
+	circle.m_p = b2Vec2{ data->offset_x * world_scale, data->offset_y * world_scale };
 	add_collider(body, data, &circle);
 }
 
 olc::vf2d PhysicsEngine::get_position(b2Body* body) {
 	b2Vec2 new_pos = body->GetPosition();
-	olc::vf2d temp_pos = {new_pos.x, new_pos.y};
+	olc::vf2d temp_pos = { new_pos.x, new_pos.y };
 	temp_pos /= world_scale;
 	return temp_pos;
 }
 
 void PhysicsEngine::set_transform(b2Body* body, float pos_x, float pos_y, float angle) {
-	b2Vec2 new_pos = b2Vec2{pos_x * world_scale, pos_y * world_scale};
+	b2Vec2 new_pos = b2Vec2{ pos_x * world_scale, pos_y * world_scale };
 	body->SetTransform(new_pos, angle);
 }
 
 float PhysicsEngine::get_angle_radians(b2Body* body) {
 	return body->GetAngle();
+}
+
+void PhysicsEngine::set_contact_listener(b2ContactListener* contact_listener) {
+	world.SetContactListener(contact_listener);
 }

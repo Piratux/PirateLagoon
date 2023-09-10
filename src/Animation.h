@@ -6,7 +6,6 @@
 
 class Animation {
 private:
-	// assumes all frames are from same spritesheet
 	std::vector<AnimationFrame> frames;
 	int current_frame_index = 0;
 	float current_frame_time = 0.0f;

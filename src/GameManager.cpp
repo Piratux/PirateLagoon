@@ -13,12 +13,9 @@
 #include "Events.h"
 
 void GameManager::init() {
-	AssetManager* asset_manager = GlobalAssetManager::get();
-
 	set_default_camera_zoom();
 
 	load_level(current_level);
-	//load_level(11);
 }
 
 void GameManager::update(float delta) {
@@ -289,12 +286,6 @@ void GameManager::set_camera_boundaries() {
 }
 
 void GameManager::set_default_camera_zoom() {
-	//olc::TransformedView* transformed_view = GlobalTransformedView::get();
-
-	////olc::vf2d screen_middle = transformed_view->GetWorldTL() + transformed_view->GetWorldVisibleArea() / 2.0f;
-	////transformed_view->ZoomAtScreenPos(0.6f, screen_middle);
-
-	//transformed_view->SetWorldScale(olc::vf2d{0.6f, 0.6f});
 	Camera2D* camera = GlobalCamera2D::get();
 	if (camera->zoomed_out) {
 		camera->toggle_zoom();

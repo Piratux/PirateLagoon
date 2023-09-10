@@ -10,7 +10,6 @@
 
 ProjectileCodeComponent::ProjectileCodeComponent(ProjectileDataComponent& data_component)
 	: data_component(data_component) {
-
 }
 
 bool ProjectileCodeComponent::update(float delta) {
@@ -23,7 +22,6 @@ bool ProjectileCodeComponent::update(float delta) {
 		create_water_splash();
 		return false;
 	}
-
 
 	if (data_component.body == nullptr) {
 		return false;
@@ -67,6 +65,6 @@ void ProjectileCodeComponent::create_water_splash() {
 	ParticleDataComponent& new_data_component = entity.add_data_component<ParticleDataComponent>(data_component.pos, animation_group);
 	ParticleCodeComponent& new_code_component = entity.add_code_component<ParticleCodeComponent>(new_data_component);
 	new_data_component.animation_group.set_looping(false);
-	new_data_component.texture_scale = olc::vf2d{2.0f, 2.0f};
+	new_data_component.texture_scale = olc::vf2d{ 2.0f, 2.0f };
 	new_data_component.particle_type = ParticleDataComponent::ParticleType::WATER_SPLASH;
 }

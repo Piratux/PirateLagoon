@@ -8,11 +8,6 @@ void Camera2D::update(float delta) {
 	olc::TransformedView* transformed_view = GlobalTransformedView::get();
 	olc::PixelGameEngine* pge = GlobalPixelGameEngine::get();
 
-	//std::cout << "visible area: " << transformed_view->GetWorldVisibleArea() << std::endl;
-	//std::cout << "top left: " << transformed_view->GetWorldTL() << std::endl;
-	//std::cout << "bottom right: " << transformed_view->GetWorldBR() << std::endl;
-	//std::cout << "m_vViewArea: " << transformed_view->m_vViewArea << std::endl;
-
 	// TEMP
 	//if (!pge->GetKey(olc::SPACE).bHeld) {
 		// "GetWorldVisibleArea()" expects that transformed view is initialised with window size
@@ -66,7 +61,6 @@ void Camera2D::big_shake(olc::vf2d offset) {
 }
 
 void Camera2D::toggle_zoom() {
-	olc::TransformedView* transformed_view = GlobalTransformedView::get();
 	if (zoomed_out) {
 		zoomed_out = false;
 		target_zoom_scale = zoom_in_scale;

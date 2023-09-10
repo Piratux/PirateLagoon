@@ -60,7 +60,7 @@ float PiraMath::angle_between_vec2_degrees(olc::vf2d vec1, olc::vf2d vec2) {
 }
 
 float PiraMath::angle_between_vec2_radians(olc::vf2d vec1, olc::vf2d vec2) {
-	return sign(vec2_det(vec1, vec2)) * std::acos(vec2_dot(vec1, vec2));
+	return (float)sign(vec2_det(vec1, vec2)) * std::acos(vec2_dot(vec1, vec2));
 }
 
 float PiraMath::vec2_det(olc::vf2d vec1, olc::vf2d vec2) {

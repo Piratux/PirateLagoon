@@ -16,17 +16,10 @@
 
 
 ContactListener::ContactListener(PhysicsEngine* physics_engine) {
-	physics_engine->world.SetContactListener(this);
-
-	//AddCallback<Enemy, Projectile>(&ContactListener::EnemyProjectile);
-	//AddCallback<Projectile, Wall>(&ContactListener::ProjectileWall);
-	//AddCallback<Player, Projectile>(&ContactListener::PlayerProjectile);
-
-	//this->
+	physics_engine->set_contact_listener(this);
 }
 
 ContactListener::~ContactListener() {
-	//std::cout << "Contact listener destructor called\n";
 };
 
 void ContactListener::BeginContact(b2Contact* contact) {
@@ -34,13 +27,6 @@ void ContactListener::BeginContact(b2Contact* contact) {
 	ColliderFlag collider_flag_b = (ColliderFlag)contact->GetFixtureB()->GetFilterData().categoryBits;
 	uintptr_t collider_data_a = contact->GetFixtureA()->GetUserData().pointer;
 	uintptr_t collider_data_b = contact->GetFixtureB()->GetUserData().pointer;
-
-	//if (collider_flag_a == ColliderFlag::WALL && collider_flag_b == ColliderFlag::PLAYER_PROJECTILE) {
-	//	wall_vs_player_projectile(collider_data_a, collider_data_b);
-	//}
-	//if (collider_flag_a == ColliderFlag::PLAYER_PROJECTILE && collider_flag_b == ColliderFlag::WALL) {
-	//	wall_vs_player_projectile(collider_data_b, collider_data_a);
-	//}
 
 	if (collider_flag_a & ColliderFlag::PLAYER_SHIP) {
 		if (collider_flag_b & ColliderFlag::ENEMY_SHIP) {
@@ -107,13 +93,6 @@ void ContactListener::EndContact(b2Contact* contact) {
 	uintptr_t collider_data_a = contact->GetFixtureA()->GetUserData().pointer;
 	uintptr_t collider_data_b = contact->GetFixtureB()->GetUserData().pointer;
 
-	//if (collider_flag_a == ColliderFlag::WALL && collider_flag_b == ColliderFlag::PLAYER_PROJECTILE) {
-	//	wall_vs_player_projectile(collider_data_a, collider_data_b);
-	//}
-	//if (collider_flag_a == ColliderFlag::PLAYER_PROJECTILE && collider_flag_b == ColliderFlag::WALL) {
-	//	wall_vs_player_projectile(collider_data_b, collider_data_a);
-	//}
-
 	if (collider_flag_a & ColliderFlag::PLAYER_SHIP) {
 		if (collider_flag_b & ColliderFlag::ENEMY_SHIP) {
 			player_ship_vs_enemy_ship_end(collider_data_a, collider_data_b);
@@ -177,21 +156,14 @@ void ContactListener::EndContact(b2Contact* contact) {
 void ContactListener::wall_vs_player_projectile_begin(uintptr_t wall, uintptr_t player_projectile) {
 	ProjectileDataComponent* projectile = reinterpret_cast<ProjectileDataComponent*>(player_projectile);
 	projectile->destroy_on_next_frame = true;
-	//std::cout << "wall vs player projectile" << std::endl;
-	// Implementation for wall vs player projectile collision
 }
 
 void ContactListener::wall_vs_enemy_projectile_begin(uintptr_t wall, uintptr_t enemy_projectile) {
 	ProjectileDataComponent* projectile = reinterpret_cast<ProjectileDataComponent*>(enemy_projectile);
 	projectile->destroy_on_next_frame = true;
-	//std::cout << "wall vs enemy projectile" << std::endl;
-	// Implementation for wall vs enemy projectile collision
 }
 
 void ContactListener::player_ship_vs_enemy_ship_begin(uintptr_t player_ship, uintptr_t enemy_ship) {
-	//std::cout << "player ship vs enemy ship" << std::endl;
-	// Implementation for player ship vs enemy ship collision
-
 	Camera2D* camera = GlobalCamera2D::get();
 	GameState* game_state = GlobalGameState::get();
 
@@ -209,7 +181,8 @@ void ContactListener::player_ship_vs_enemy_ship_begin(uintptr_t player_ship, uin
 	float speed_ratio = std::max(player_speed_ratio, enemy_speed_ratio);
 	if (speed_ratio > 0.5f) {
 		// TODO: probably could be improved to take more damage from stronger enemies
-		int damage = (int)std::round(player->ram_wall_damage_percentage * 0.01f * player->max_health * speed_ratio) - 5; // magical 5 is to make sure damage is done in range [0; 5]
+		// magical 5 is to make sure damage is done in range [0; 5]
+		int damage = (int)std::round(player->ram_wall_damage_percentage * 0.01f * (float)player->max_health * speed_ratio) - 5;
 
 		if (player->take_ram_damage(damage)) {
 			add_floating_text_particle(player->pos, "-" + std::to_string(damage));
@@ -224,11 +197,8 @@ void ContactListener::player_ship_vs_enemy_ship_begin(uintptr_t player_ship, uin
 }
 
 void ContactListener::player_ship_vs_enemy_projectile_begin(uintptr_t player_ship, uintptr_t enemy_projectile) {
-	//std::cout << "player ship vs enemy projectile" << std::endl;
-
 	Camera2D* camera = GlobalCamera2D::get();
 	GameState* game_state = GlobalGameState::get();
-	//std::cout << "enemy ship vs player projectile" << std::endl;
 
 	ShipDataComponent* player = reinterpret_cast<ShipDataComponent*>(player_ship);
 	ProjectileDataComponent* projectile = reinterpret_cast<ProjectileDataComponent*>(enemy_projectile);
@@ -255,7 +225,6 @@ void ContactListener::player_ship_vs_enemy_projectile_begin(uintptr_t player_shi
 void ContactListener::enemy_ship_vs_player_projectile_begin(uintptr_t enemy_ship, uintptr_t player_projectile) {
 	Camera2D* camera = GlobalCamera2D::get();
 	GameState* game_state = GlobalGameState::get();
-	//std::cout << "enemy ship vs player projectile" << std::endl;
 
 	ShipDataComponent* enemy = reinterpret_cast<ShipDataComponent*>(enemy_ship);
 	ProjectileDataComponent* projectile = reinterpret_cast<ProjectileDataComponent*>(player_projectile);
@@ -273,15 +242,6 @@ void ContactListener::enemy_ship_vs_player_projectile_begin(uintptr_t enemy_ship
 	// TODO: would be a great idea to put this formula in ExplosionParticle static method
 	//float explosion_scale = 0.2f + temp_projectile.texture_scale.x * 0.2f;
 
-	//temp_enemy.game_manager.particles.add(
-	//	new ExplosionParticle(
-	//		temp_enemy.game_manager,
-	//		temp_projectile.get_pos(),
-	//		new Vector2(explosion_scale, explosion_scale),
-	//		16
-	//	)
-	//);
-
 	olc::vf2d projectile_dir = Utils::b2Vec2_to_vf2d(projectile->body->GetLinearVelocity()).norm();
 	if (enemy->is_dead()) {
 		camera->big_shake(projectile_dir);
@@ -292,9 +252,6 @@ void ContactListener::enemy_ship_vs_player_projectile_begin(uintptr_t enemy_ship
 }
 
 void ContactListener::player_ship_vs_wall_begin(uintptr_t player_ship, uintptr_t wall) {
-	//std::cout << "player ship vs wall" << std::endl;
-	// Implementation for player ship vs wall collision
-
 	Camera2D* camera = GlobalCamera2D::get();
 	GameState* game_state = GlobalGameState::get();
 
@@ -307,7 +264,7 @@ void ContactListener::player_ship_vs_wall_begin(uintptr_t player_ship, uintptr_t
 
 	float speed_ratio = player->vel / player->max_vel;
 	if (speed_ratio > 0.5f) {
-		int damage = (int)std::round(player->ram_wall_damage_percentage * 0.01f * player->max_health * speed_ratio) - 5; // magical 5 is to make sure damage is done in range [0; 5]
+		int damage = (int)std::round(player->ram_wall_damage_percentage * 0.01f * (float)player->max_health * speed_ratio) - 5; // magical 5 is to make sure damage is done in range [0; 5]
 		if (player->take_ram_damage(damage)) {
 			add_floating_text_particle(player->pos, "-" + std::to_string(damage));
 			camera->small_shake(olc::vf2d{});
@@ -316,17 +273,12 @@ void ContactListener::player_ship_vs_wall_begin(uintptr_t player_ship, uintptr_t
 }
 
 void ContactListener::enemy_ship_vs_wall_begin(uintptr_t enemy_ship, uintptr_t wall) {
-	//std::cout << "enemy ship vs wall" << std::endl;
-	// Implementation for enemy ship vs wall collision
-
 	ShipDataComponent* enemy = reinterpret_cast<ShipDataComponent*>(enemy_ship);
 	// TODO: This should be put somewhere else, because taking ram damage also has this line
 	enemy->set_velocity(enemy->get_velocity() - enemy->ram_impact_lost_speed_percentage * 0.01f * enemy->max_vel);
 }
 
 void ContactListener::player_projectile_vs_enemy_projectile_begin(uintptr_t player_projectile, uintptr_t enemy_projectile) {
-	//std::cout << "player projectile vs enemy projectile" << std::endl;
-	// Implementation for player projectile vs enemy projectile collision
 }
 
 
@@ -370,7 +322,8 @@ void ContactListener::add_floating_text_particle(olc::vf2d pos, std::string text
 	AssetManager* asset_manager = GlobalAssetManager::get();
 
 	Entity& entity = entity_manager->create_entity();
-	AnimationGroup animation_group = asset_manager->get_animation_group(AnimationGroupName::PARTICLE_EXPLOSION); // TODO: animation will be unused
+	// TODO: animation will be unused
+	AnimationGroup animation_group = asset_manager->get_animation_group(AnimationGroupName::PARTICLE_EXPLOSION);
 	ParticleDataComponent& new_data_component = entity.add_data_component<ParticleDataComponent>(pos, animation_group);
 	ParticleCodeComponent& new_code_component = entity.add_code_component<ParticleCodeComponent>(new_data_component);
 	new_data_component.text = text;

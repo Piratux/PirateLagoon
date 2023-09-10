@@ -6,8 +6,6 @@ bool ScreenFader::update(float delta) {
 		return true;
 	}
 
-	olc::PixelGameEngine* pge = GlobalPixelGameEngine::get();
-
 	switch (state) {
 	case State::SCREEN_FADE_IN_DELAY:
 		fade_in_delay_timer_seconds += delta;
@@ -42,8 +40,6 @@ bool ScreenFader::update(float delta) {
 }
 
 void ScreenFader::draw() {
-	olc::PixelGameEngine* pge = GlobalPixelGameEngine::get();
-
 	switch (state) {
 	case State::SCREEN_FADE_IN_DELAY:
 		draw_transparent_rect(0.0f);

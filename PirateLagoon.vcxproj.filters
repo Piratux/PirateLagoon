@@ -42,9 +42,6 @@
     <ClCompile Include="src\olcPGEX_TransformedView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\olcSoundWaveEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -299,36 +296,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Animation.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AnimationGroup.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AssetManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\olcPGEX_SplashScreen.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\olcPixelGameEngine.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\olcSoundWaveEngine.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TileMap.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\olcPGEX_TransformedView.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera2D.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -606,6 +573,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tutasPGEX_ComicArt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnimationGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AssetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\olcPGEX_SplashScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\olcPGEX_TransformedView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\olcPixelGameEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

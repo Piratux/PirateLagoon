@@ -24,6 +24,7 @@ public:
 	// Returns random normalised direction in radian range [from, to]
 	static olc::vf2d random_direction(float from = 0.0f, float to = 2 * b2_pi);
 
+	// Convenience function, because PGE doesn't offer that
 	static void draw_cirlce(olc::vf2d center, float radius, olc::Pixel color, int polygon_edges = 20);
 };
 

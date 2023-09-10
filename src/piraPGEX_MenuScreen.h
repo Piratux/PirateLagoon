@@ -31,7 +31,7 @@ namespace olc {
 #undef PIRA_PGEX_MENUSCREEN
 
 namespace olc {
-	MenuScreen::MenuScreen(olc::Renderable* menu_image) : menu_image(menu_image), olc::PGEX(true) {
+	MenuScreen::MenuScreen(olc::Renderable* menu_image) : olc::PGEX(true), menu_image(menu_image) {
 	}
 
 	void MenuScreen::play_menu() {
@@ -50,12 +50,6 @@ namespace olc {
 		delta = std::clamp(delta, 0.0f, 0.1f);
 
 		ScreenFader* screen_fader = GlobalScreenFader::get();
-
-		auto draw_menu = [&]() {
-			if (menu_image) {
-				pge->DrawDecal(olc::vf2d{0, 0}, menu_image->Decal(), (olc::vf2d)pge->GetScreenSize() / (olc::vf2d)menu_image->Sprite()->Size());
-			}
-		};
 
 		if (menu_image) {
 			pge->DrawDecal(olc::vf2d{0, 0}, menu_image->Decal(), (olc::vf2d)pge->GetScreenSize() / (olc::vf2d)menu_image->Sprite()->Size());

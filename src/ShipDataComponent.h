@@ -27,7 +27,6 @@ public:
 	float cannon_strength = 5.0f; // force at which cannon ball is shot out
 	float cannon_ball_size_scale = 1.0f; // scales cannon ball texture and hitbox
 	float cannon_ball_pos_offset_scale = 30.0f; // pos offset telling how far from center cannon balls will spawn
-	//float reload_timer_length_seconds = 1.0f;
 	float reload_timer_length_seconds = 1.0f;
 	float reload_timer_seconds = 0.0f;
 
@@ -133,79 +132,19 @@ public:
 	void reset_reload_timer();
 	void reset_no_ram_damage_timer();
 
-	bool is_dead() {
-		return health <= 0;
-	}
+	bool is_dead();
 
-	bool can_take_ram_damage() {
-		return no_ram_damage_timer_seconds < 0.01f;
-	}
+	bool can_take_ram_damage();
 
 	// returns true, if damage was dealt to ship
 	// NOTE: Don't use this function to heal the ship
-	bool take_damage(int amount) {
-		if (is_dead())
-			return false;
-
-		if (amount <= 0)
-			return false;
-
-		health -= amount;
-		health = std::max(health, 0);
-
-		reset_regeneration_timer();
-
-		return true;
-
-		//game_manager.floating_texts.add(new FloatingText(game_manager.font,
-		//    "-" + amount,
-		//    new Vector2(get_pos().x, get_pos().y - get_curr_frame().getRegionHeight()),
-		//    true)
-		//);
-	}
+	bool take_damage(int amount);
 	// returns true, if damage was dealt to ship
-	bool take_ram_damage(int amount) {
-		if (can_take_ram_damage() == false) {
-			return false;
-		}
-
-		set_velocity(get_velocity() - ram_impact_lost_speed_percentage * 0.01f * max_vel);
-
-		reset_no_ram_damage_timer();
-		return take_damage(amount);
-	}
-	int get_health() {
-		return health;
-	}
-	int get_max_health() {
-		return max_health;
-	}
+	bool take_ram_damage(int amount);
+	int get_health();
+	int get_max_health();
 	// returns amount healed
-	int heal(int amount) {
-		if (amount <= 0)
-			return 0;
-
-		int amount_healed = std::min(amount, get_max_health() - health);
-
-		health += amount_healed;
-		return amount_healed;
-	}
-	void set_max_health(int new_max_health) {
-		if (new_max_health <= 0) {
-			return;
-		}
-
-		if (new_max_health < health) {
-			health = new_max_health;
-		}
-
-		if (new_max_health > get_max_health()) {
-			health += new_max_health - get_max_health();
-		}
-
-		max_health = new_max_health;
-	}
-	float get_health_percentage() {
-		return (float)get_health() / get_max_health() * 100.0f;
-	}
+	int heal(int amount);
+	void set_max_health(int new_max_health);
+	float get_health_percentage();
 };

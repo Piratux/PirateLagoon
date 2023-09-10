@@ -17,31 +17,17 @@ void PhysicsEngineDebugDrawer::DrawPolygon(const b2Vec2* vertices, int32 vertexC
 			0xFF
 	};
 
-	//olc::vf2d pos1{ vertices[vertexCount - 1].x, vertices[vertexCount - 1].y };
-	//olc::vf2d pos2{ vertices[0].x, vertices[0].y };
-	//pos1 /= world_scale;
-	//pos2 /= world_scale;
-
-	//for (int32 i = 1; i <= vertexCount; ++i) {
-	//	transformed_view->DrawLineDecal(pos1, pos2, _color);
-
-	//	pos1 = pos2;
-	//	pos2 = {vertices[i].x, vertices[i].y};
-	//	pos2 /= world_scale;
-	//}
-
-
 	for (int32 i = 1; i < vertexCount; ++i) {
-		olc::vf2d pos1 = olc::vf2d{vertices[i - 1].x, vertices[i - 1].y};
-		olc::vf2d pos2 = olc::vf2d{vertices[i].x, vertices[i].y};
+		olc::vf2d pos1 = olc::vf2d{ vertices[i - 1].x, vertices[i - 1].y };
+		olc::vf2d pos2 = olc::vf2d{ vertices[i].x, vertices[i].y };
 		pos1 /= world_scale;
 		pos2 /= world_scale;
 
 		transformed_view->DrawLineDecal(pos1, pos2, _color);
 	}
 
-	olc::vf2d pos1 = olc::vf2d{vertices[0].x, vertices[0].y};
-	olc::vf2d pos2 = olc::vf2d{vertices[vertexCount - 1].x, vertices[vertexCount - 1].y};
+	olc::vf2d pos1 = olc::vf2d{ vertices[0].x, vertices[0].y };
+	olc::vf2d pos2 = olc::vf2d{ vertices[vertexCount - 1].x, vertices[vertexCount - 1].y };
 	pos1 /= world_scale;
 	pos2 /= world_scale;
 
@@ -66,6 +52,7 @@ void PhysicsEngineDebugDrawer::DrawCircle(const b2Vec2& center, float radius, co
 }
 
 void PhysicsEngineDebugDrawer::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color) {
+	// TODO: use axis parameter
 	DrawCircle(center, radius, color);
 }
 
@@ -116,6 +103,8 @@ void PhysicsEngineDebugDrawer::DrawTransform(const b2Transform& xf) {
 }
 
 void PhysicsEngineDebugDrawer::DrawPoint(const b2Vec2& p, float size, const b2Color& color) {
+	(void)size;
+
 	olc::Pixel _color{
 		static_cast<uint8_t>(color.r * 255.0f),
 			static_cast<uint8_t>(color.g * 255.0f),

@@ -6,7 +6,7 @@
 
 void Utils::check_null(void* ptr) {
 	if (ptr == nullptr) {
-		std::cout << "Error: Globals::check_null: global pointer is null." << std::endl;
+		std::cout << "Error: Utils::check_null: global pointer is null." << std::endl;
 		exit(-1);
 	}
 }
@@ -16,7 +16,7 @@ olc::vf2d Utils::b2Vec2_to_vf2d(b2Vec2 vec2) {
 }
 
 b2Vec2 Utils::vf2d_to_b2Vec2(olc::vf2d vec2) {
-	return b2Vec2{vec2.x, vec2.y};
+	return b2Vec2{ vec2.x, vec2.y };
 }
 
 int Utils::random_int(int to) {

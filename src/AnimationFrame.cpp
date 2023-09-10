@@ -3,7 +3,6 @@
 AnimationFrame AnimationFrame::empty_frame;
 
 AnimationFrame::AnimationFrame() {
-
 }
 
 AnimationFrame::AnimationFrame(olc::Renderable* image, int x, int y, int width, int height, float display_time_seconds)

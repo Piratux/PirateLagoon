@@ -6,13 +6,6 @@
 ProjectileDataComponent::ProjectileDataComponent(olc::vf2d pos, AnimationGroup animation_group)
 	: pos(pos)
 	, animation_group(animation_group) {
-
-	//PhysicsEngine* physics_engine = GlobalPhysicsEngine::get();
-
-	//body = physics_engine->create_body(b2BodyType::b2_dynamicBody, pos.x, pos.y);
-
-	//ColliderData data;
-	//physics_engine->add_circle_collider(body, &data, 50);
 }
 
 ProjectileDataComponent::~ProjectileDataComponent() {

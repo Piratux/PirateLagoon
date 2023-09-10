@@ -1,6 +1,6 @@
 #pragma once
 #include "olcPixelGameEngine.h"
-#include "olcSoundWaveEngine.h"
+//#include "olcSoundWaveEngine.h"
 #include "Animation.h"
 #include "AnimationGroup.h"
 #include "EnumAudioName.h"
@@ -10,7 +10,7 @@
 
 class AssetManager {
 private:
-	std::map<AudioName, olc::sound::Wave> audios;
+	//std::map<AudioName, olc::sound::Wave> audios;
 	std::map<ImageName, olc::Renderable> images;
 
 	// this is not ideal, but olc::Renderable doesn't like to be destroyed when vector re-allocated
@@ -20,7 +20,7 @@ private:
 public:
 	void init();
 
-	olc::sound::Wave* get_audio(AudioName audio_name);
+	//olc::sound::Wave* get_audio(AudioName audio_name);
 	olc::Renderable* get_renderable(ImageName image_name);
 	olc::Decal* get_decal(ImageName image_name);
 	olc::Sprite* get_sprite(ImageName image_name);

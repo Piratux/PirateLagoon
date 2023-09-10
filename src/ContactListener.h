@@ -1,12 +1,11 @@
 // This class defines what needs to be done when bodies collide
 
-// What could be problem when bodies don't collide although they should:
-// - Entity doesn't have "this->name = typeid(Type).name();" line
+// What could be problem when bodies don't collide although one thinks they should:
 // - Collision callback doesn't match the desired objects in "AddCallback()"
 // - Not enough collision flags
 // - Collision flags aren't combined with "|" operator
 
-// WARNING: Collision detection assumes, that if 2 objects collide, they're both valid (that is, their pointers are valid).
+// WARNING: Collision detection assumes, that if 2 objects collide, they're both valid (that is, their data pointers are valid).
 
 #pragma once
 

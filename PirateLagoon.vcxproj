@@ -103,7 +103,6 @@
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\olcPGEX_SplashScreen.cpp" />
     <ClCompile Include="src\olcPGEX_TransformedView.cpp" />
-    <ClCompile Include="src\olcSoundWaveEngine.cpp" />
     <ClCompile Include="src\Camera2D.cpp" />
     <ClCompile Include="src\PhysicsEngine.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
@@ -213,7 +212,6 @@
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\olcPGEX_SplashScreen.h" />
     <ClInclude Include="src\olcPixelGameEngine.h" />
-    <ClInclude Include="src\olcSoundWaveEngine.h" />
     <ClInclude Include="src\tutasPGEX_ComicArt.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\TileMapRaycastData.h" />
@@ -279,6 +277,7 @@
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ShowIncludes>false</ShowIncludes>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -296,6 +295,7 @@
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ShowIncludes>false</ShowIncludes>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -313,6 +313,7 @@
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ShowIncludes>false</ShowIncludes>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -330,6 +331,7 @@
       <AdditionalIncludeDirectories>C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Source;C:\Users\HP\Desktop\Coding\C_C++\PirateLagoon\Box2D\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ShowIncludes>false</ShowIncludes>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

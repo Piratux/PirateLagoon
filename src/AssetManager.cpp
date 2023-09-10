@@ -14,9 +14,9 @@ void AssetManager::init() {
 	std::cout << "Assets loaded succesfully\n";
 }
 
-olc::sound::Wave* AssetManager::get_audio(AudioName audio_name) {
-	return &audios[audio_name];
-}
+//olc::sound::Wave* AssetManager::get_audio(AudioName audio_name) {
+//	return &audios[audio_name];
+//}
 
 olc::Renderable* AssetManager::get_renderable(ImageName image_name) {
 	if (images.count(image_name) == 0) {
@@ -47,17 +47,17 @@ void AssetManager::init_empty_animation_frame() {
 }
 
 void AssetManager::load_audios() {
-	std::string audio_root = "./assets/audio/";
+	//std::string audio_root = "./assets/audio/";
 
-	auto load_audio = [&](AudioName audio, const std::string& name) {
-		bool result = audios[audio].LoadAudioWaveform(audio_root + name + ".wav");
-		if (result != true) {
-			std::cout << "Error: couldn't load audio: " + name << "\n";
-			exit(-1);
-		}
-	};
+	//auto load_audio = [&](AudioName audio, const std::string& name) {
+	//	bool result = audios[audio].LoadAudioWaveform(audio_root + name + ".wav");
+	//	if (result != true) {
+	//		std::cout << "Error: couldn't load audio: " + name << "\n";
+	//		exit(-1);
+	//	}
+	//};
 
-	load_audio(AudioName::CANNON_BLAST, "cannon_blast");
+	//load_audio(AudioName::CANNON_BLAST, "cannon_blast");
 }
 
 void AssetManager::load_images() {
@@ -108,6 +108,7 @@ void AssetManager::load_animation_groups() {
 			}
 	};
 
+	// convenience function for animations with single image or spritesheet with single animation (easy to extend it this way)
 	auto load_image_as_animation_group = [&](AnimationGroupName animation_group_name, const std::string& path, olc::vi2d grid_size = { 1, 1 }, int animation_speed = 15) {
 		load_animation_group(
 			animation_group_name,

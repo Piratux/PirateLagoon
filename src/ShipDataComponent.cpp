@@ -176,3 +176,75 @@ void ShipDataComponent::reset_reload_timer() {
 void ShipDataComponent::reset_no_ram_damage_timer() {
 	no_ram_damage_timer_seconds = no_ram_damage_timer_length_seconds;
 }
+
+bool ShipDataComponent::is_dead() {
+	return health <= 0;
+}
+
+bool ShipDataComponent::can_take_ram_damage() {
+	return no_ram_damage_timer_seconds < 0.01f;
+}
+
+bool ShipDataComponent::take_damage(int amount) {
+	if (is_dead())
+		return false;
+
+	if (amount <= 0)
+		return false;
+
+	health -= amount;
+	health = std::max(health, 0);
+
+	reset_regeneration_timer();
+
+	return true;
+}
+
+bool ShipDataComponent::take_ram_damage(int amount) {
+	if (can_take_ram_damage() == false) {
+		return false;
+	}
+
+	set_velocity(get_velocity() - ram_impact_lost_speed_percentage * 0.01f * max_vel);
+
+	reset_no_ram_damage_timer();
+	return take_damage(amount);
+}
+
+int ShipDataComponent::get_health() {
+	return health;
+}
+
+int ShipDataComponent::get_max_health() {
+	return max_health;
+}
+
+int ShipDataComponent::heal(int amount) {
+	if (amount <= 0)
+		return 0;
+
+	int amount_healed = std::min(amount, get_max_health() - health);
+
+	health += amount_healed;
+	return amount_healed;
+}
+
+void ShipDataComponent::set_max_health(int new_max_health) {
+	if (new_max_health <= 0) {
+		return;
+	}
+
+	if (new_max_health < health) {
+		health = new_max_health;
+	}
+
+	if (new_max_health > get_max_health()) {
+		health += new_max_health - get_max_health();
+	}
+
+	max_health = new_max_health;
+}
+
+float ShipDataComponent::get_health_percentage() {
+	return 100.0f * (float)get_health() / (float)get_max_health();
+}
